@@ -1,0 +1,8 @@
+syntax = "proto3";
+package ansys.api.acp.v0;
+
+import "ansys/api/acp/v0/base.proto";
+
+service Control {
+    rpc ShutdownServer(Empty) returns (Empty);
+}

@@ -1,0 +1,42 @@
+syntax = "proto3";
+package ansys.api.acp.v0;
+
+import "ansys/api/acp/v0/base.proto";
+
+message ModelingGroupRequest {
+    ResourcePath resource_path = 1;
+    // TODO: add a 'view' that determines which parts are returned
+}
+
+message ModelingGroupReply {
+    BasicInfo info = 1;
+}
+
+message PutModelingGroupRequest {
+    BasicInfo info = 1;
+}
+
+message ListModelingGroupsReply {
+    repeated ModelingGroupReply modeling_groups = 1;
+}
+
+message ListModelingGroupsRequest {
+    CollectionPath collection_path = 1;
+}
+
+message CreateModelingGroupRequest {
+    CollectionPath collection_path = 1;
+    string name = 2;
+}
+
+service ModelingGroup {
+    rpc List(ListModelingGroupsRequest) returns (ListModelingGroupsReply);
+
+    rpc Get(ModelingGroupRequest) returns (ModelingGroupReply);
+
+    rpc Put(PutModelingGroupRequest) returns (ModelingGroupReply);
+
+    rpc Delete(ModelingGroupRequest) returns (Empty);
+
+    rpc Create(CreateModelingGroupRequest) returns (ModelingGroupReply);
+}

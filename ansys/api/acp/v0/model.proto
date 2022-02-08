@@ -1,0 +1,52 @@
+syntax = "proto3";
+package ansys.api.acp.v0;
+
+import "ansys/api/acp/v0/base.proto";
+
+message ModelRequest {
+    ResourcePath resource_path = 1;
+    // TODO: add a 'view' that determines which parts are returned
+}
+
+message PutModelRequest {
+    BasicInfo info = 1;
+}
+
+message LoadModelRequest {
+    string filename = 1;
+}
+
+message UpdateModelRequest {
+    ResourcePath resource_path = 1;
+    bool relations_only = 2;
+}
+
+message SaveModelRequest {
+    ResourcePath resource_path = 1;
+    string filename = 2;
+    bool save_cache = 3;
+}
+
+message ModelReply {
+    BasicInfo info = 1;
+}
+
+message ListModelsReply {
+    repeated ModelReply models = 1;
+}
+
+service Model {
+    rpc List(Empty) returns (ListModelsReply);
+
+    rpc Get(ModelRequest) returns (ModelReply);
+
+    rpc Put(PutModelRequest) returns (ModelReply);
+
+    rpc Delete(ModelRequest) returns (Empty);
+
+    rpc Update(UpdateModelRequest) returns (ModelReply); // TODO: return changed entitites
+
+    rpc LoadFromFile(LoadModelRequest) returns (ModelReply);
+
+    rpc SaveToFile(SaveModelRequest) returns (Empty);
+}
