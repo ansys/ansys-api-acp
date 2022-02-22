@@ -16,12 +16,12 @@ message PutModelingGroupRequest {
     BasicInfo info = 1;
 }
 
-message ListModelingGroupsReply {
-    repeated ModelingGroupReply modeling_groups = 1;
-}
-
 message ListModelingGroupsRequest {
     CollectionPath collection_path = 1;
+}
+
+message ListModelingGroupsReply {
+    repeated ModelingGroupReply modeling_groups = 1;
 }
 
 message CreateModelingGroupRequest {

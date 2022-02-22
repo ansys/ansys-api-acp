@@ -13,7 +13,7 @@ message PutModelRequest {
 }
 
 message LoadModelRequest {
-    string filename = 1;
+    string path = 1;
 }
 
 message UpdateModelRequest {
@@ -23,7 +23,7 @@ message UpdateModelRequest {
 
 message SaveModelRequest {
     ResourcePath resource_path = 1;
-    string filename = 2;
+    string path = 2;
     bool save_cache = 3;
 }
 
@@ -31,12 +31,16 @@ message ModelReply {
     BasicInfo info = 1;
 }
 
+message ListModelsRequest {
+    CollectionPath collection_path = 1;
+}
+
 message ListModelsReply {
     repeated ModelReply models = 1;
 }
 
 service Model {
-    rpc List(Empty) returns (ListModelsReply);
+    rpc List(ListModelsRequest) returns (ListModelsReply);
 
     rpc Get(ModelRequest) returns (ModelReply);
 
