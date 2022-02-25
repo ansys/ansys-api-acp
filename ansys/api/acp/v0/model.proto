@@ -1,19 +1,49 @@
 syntax = "proto3";
-package ansys.api.acp.v0;
+package ansys.api.acp.v0.model;
 
 import "ansys/api/acp/v0/base.proto";
 
-message ModelRequest {
-    ResourcePath resource_path = 1;
-    // TODO: add a 'view' that determines which parts are returned
+enum Format {
+    ANSYS_H5 = 0;
+    ANSYS_CDB = 1;
+    ANSYS_DAT = 2;
+    ABAQUS_INP = 3;
+    NASTRAN_BDF = 4;
 }
 
-message PutModelRequest {
+message ModelRequest {
+    ResourcePath resource_path = 1;
+}
+
+message ModelInfo {
     BasicInfo info = 1;
+    message ModelingProperties {
+        bool use_nodal_thicknesses = 1;
+        bool draping_offset_correction = 2;
+        bool use_default_section_tolerances = 3;
+        double angle_tolerance = 4;
+        double relative_thickness_tolerance = 5;
+        double minimum_analysis_ply_thickness = 6;
+    }
+    ModelingProperties modeling_properties = 2;
 }
 
 message LoadModelRequest {
     string path = 1;
+}
+
+message LoadFEModelRequest {
+    string path = 1;
+    Format format = 2;
+    enum IgnorableEntity {
+        MESH = 0;
+        ELEMENT_SETS = 1;
+        MATERIALS = 2;
+        COORDINATE_SYSTEMS = 3;
+        SHELL_SECTIONS = 4;
+    }
+    repeated IgnorableEntity ignored_entities = 3;
+    bool convert_section_data = 4;
 }
 
 message UpdateModelRequest {
@@ -27,30 +57,28 @@ message SaveModelRequest {
     bool save_cache = 3;
 }
 
-message ModelReply {
-    BasicInfo info = 1;
-}
-
 message ListModelsRequest {
     CollectionPath collection_path = 1;
 }
 
 message ListModelsReply {
-    repeated ModelReply models = 1;
+    repeated ModelInfo models = 1;
 }
 
 service Model {
     rpc List(ListModelsRequest) returns (ListModelsReply);
 
-    rpc Get(ModelRequest) returns (ModelReply);
+    rpc Get(ModelRequest) returns (ModelInfo);
 
-    rpc Put(PutModelRequest) returns (ModelReply);
+    rpc Put(ModelInfo) returns (ModelInfo);
 
     rpc Delete(ModelRequest) returns (Empty);
 
-    rpc Update(UpdateModelRequest) returns (ModelReply); // TODO: return changed entitites
+    rpc Update(UpdateModelRequest) returns (ModelInfo); // TODO: return changed entitites
 
-    rpc LoadFromFile(LoadModelRequest) returns (ModelReply);
+    rpc LoadFromFile(LoadModelRequest) returns (ModelInfo);
+
+    rpc LoadFromFEFile(LoadFEModelRequest) returns (ModelInfo);
 
     rpc SaveToFile(SaveModelRequest) returns (Empty);
 }
