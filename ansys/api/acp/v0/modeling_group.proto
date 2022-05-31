@@ -16,6 +16,10 @@ message PutModelingGroupRequest {
     BasicInfo info = 1;
 }
 
+message DeleteModelingGroupRequest {
+    BasicInfo info = 1;
+}
+
 message ListModelingGroupsRequest {
     CollectionPath collection_path = 1;
 }
@@ -36,7 +40,7 @@ service ModelingGroup {
 
     rpc Put(PutModelingGroupRequest) returns (ModelingGroupReply);
 
-    rpc Delete(ModelingGroupRequest) returns (Empty);
+    rpc Delete(DeleteModelingGroupRequest) returns (Empty);
 
     rpc Create(CreateModelingGroupRequest) returns (ModelingGroupReply);
 }
