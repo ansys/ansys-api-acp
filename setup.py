@@ -12,7 +12,7 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-with open(os.path.join(HERE, "ansys", "api", "acp", "VERSION"), encoding="utf-8") as f:
+with open(os.path.join(HERE, "src", "ansys", "api", "acp", "VERSION"), encoding="utf-8") as f:
     version = f.read().strip()
 
 package_name = "ansys-api-acp"
@@ -32,7 +32,8 @@ if __name__ == "__main__":
         license="MIT",
         python_requires=">=3.7",
         install_requires=["grpcio~=1.17", "protobuf~=3.19"],
-        packages=setuptools.find_namespace_packages(".", include=("ansys.*",)),
+        package_dir = {"": "src"},
+        packages=setuptools.find_namespace_packages("src", include=("ansys.*",)),
         package_data={
             "": ["*.proto", "*.pyi", "py.typed", "VERSION"],
         },
