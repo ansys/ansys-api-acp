@@ -1,0 +1,45 @@
+syntax = "proto3";
+package ansys.api.acp.v0;
+
+import "ansys/api/acp/v0/base.proto";
+
+message RosetteRequest {
+    ResourcePath resource_path = 1;
+}
+
+message RosetteReply {
+    BasicInfo info = 1;
+}
+
+message PutRosetteRequest {
+    BasicInfo info = 1;
+}
+
+message DeleteRosetteRequest {
+    BasicInfo info = 1;
+}
+
+message ListRosettesRequest {
+    CollectionPath collection_path = 1;
+}
+
+message ListRosettesReply {
+    repeated RosetteReply rosettes = 1;
+}
+
+message CreateRosetteRequest {
+    CollectionPath collection_path = 1;
+    string name = 2;
+}
+
+service Rosette {
+    rpc List(ListRosettesRequest) returns (ListRosettesReply);
+
+    rpc Get(RosetteRequest) returns (RosetteReply);
+
+    rpc Put(PutRosetteRequest) returns (RosetteReply);
+
+    rpc Delete(DeleteRosetteRequest) returns (Empty);
+
+    rpc Create(CreateRosetteRequest) returns (RosetteReply);
+}
