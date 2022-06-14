@@ -1,0 +1,46 @@
+syntax = "proto3";
+package ansys.api.acp.v0;
+
+import "ansys/api/acp/v0/base.proto";
+
+message ElementSetRequest {
+    ResourcePath resource_path = 1;
+    // TODO: add a 'view' that determines which parts are returned
+}
+
+message ElementSetReply {
+    BasicInfo info = 1;
+}
+
+message PutElementSetRequest {
+    BasicInfo info = 1;
+}
+
+message DeleteElementSetRequest {
+    BasicInfo info = 1;
+}
+
+message ListElementSetsRequest {
+    CollectionPath collection_path = 1;
+}
+
+message ListElementSetsReply {
+    repeated ElementSetReply element_sets = 1;
+}
+
+message CreateElementSetRequest {
+    CollectionPath collection_path = 1;
+    string name = 2;
+}
+
+service ElementSet {
+    rpc List(ListElementSetsRequest) returns (ListElementSetsReply);
+
+    rpc Get(ElementSetRequest) returns (ElementSetReply);
+
+    rpc Put(PutElementSetRequest) returns (ElementSetReply);
+
+    rpc Delete(DeleteElementSetRequest) returns (Empty);
+
+    rpc Create(CreateElementSetRequest) returns (ElementSetReply);
+}
