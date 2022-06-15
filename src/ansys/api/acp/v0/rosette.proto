@@ -1,18 +1,39 @@
 syntax = "proto3";
-package ansys.api.acp.v0;
+package ansys.api.acp.v0.rosette;
 
 import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+enum Type {
+        PARALLEL = 0;
+        RADIAL = 1;
+        CYLINDRICAL = 2;
+        SPHERICAL = 3;
+        EDGE_WISE = 4;
+}
 
 message RosetteRequest {
     ResourcePath resource_path = 1;
 }
 
+message RosetteProperties {
+    StatusType status = 1;
+    bool locked = 2;
+    Type rosette_type = 3;
+    array_types.DoubleArray origin = 4;
+    array_types.DoubleArray dir1 = 5;
+    array_types.DoubleArray dir2 = 6;
+}
+
 message RosetteReply {
     BasicInfo info = 1;
+    RosetteProperties properties = 2;
 }
 
 message PutRosetteRequest {
     BasicInfo info = 1;
+    RosetteProperties properties = 2;
 }
 
 message DeleteRosetteRequest {
@@ -30,6 +51,7 @@ message ListRosettesReply {
 message CreateRosetteRequest {
     CollectionPath collection_path = 1;
     string name = 2;
+    RosetteProperties properties = 3;
 }
 
 service Rosette {

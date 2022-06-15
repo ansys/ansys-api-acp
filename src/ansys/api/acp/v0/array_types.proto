@@ -1,0 +1,7 @@
+syntax = "proto3";
+package ansys.api.acp.v0.array_types;
+
+message DoubleArray {
+  repeated int64 shape = 1 [packed=true];
+  repeated double data = 2 [packed=true];
+}

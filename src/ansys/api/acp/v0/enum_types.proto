@@ -1,0 +1,8 @@
+syntax = "proto3";
+package ansys.api.acp.v0;
+
+//the initializers are different in the backend but here it has to be zero-based
+enum StatusType {
+    UPTODATE = 0;
+    NOTUPTODATE = 1;
+}
