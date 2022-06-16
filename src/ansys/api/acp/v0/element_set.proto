@@ -1,19 +1,30 @@
 syntax = "proto3";
-package ansys.api.acp.v0;
+package ansys.api.acp.v0.element_set;
 
 import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/array_types.proto";
+import "ansys/api/acp/v0/enum_types.proto";
 
 message ElementSetRequest {
     ResourcePath resource_path = 1;
     // TODO: add a 'view' that determines which parts are returned
 }
 
+message ElementSetProperties {
+    enum_types.StatusType status = 1;
+    bool locked = 2;
+    bool middle_offset = 3;
+    array_types.IntArray element_labels = 4;
+}
+
 message ElementSetReply {
     BasicInfo info = 1;
+    ElementSetProperties properties = 2;
 }
 
 message PutElementSetRequest {
     BasicInfo info = 1;
+    ElementSetProperties properties = 2;
 }
 
 message DeleteElementSetRequest {
@@ -31,6 +42,8 @@ message ListElementSetsReply {
 message CreateElementSetRequest {
     CollectionPath collection_path = 1;
     string name = 2;
+    ElementSetProperties properties = 3;
+
 }
 
 service ElementSet {
