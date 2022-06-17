@@ -11,14 +11,6 @@ enum Format {
     NASTRAN_BDF = 4;
 }
 
-message ModelRequest {
-    ResourcePath resource_path = 1;
-}
-
-message DeleteModelRequest {
-    BasicInfo info = 1;
-}
-
 message ModelInfo {
     BasicInfo info = 1;
     message ModelingProperties {
@@ -29,7 +21,7 @@ message ModelInfo {
         double relative_thickness_tolerance = 5;
         double minimum_analysis_ply_thickness = 6;
     }
-    ModelingProperties modeling_properties = 2;
+    ModelingProperties properties = 2;
 }
 
 message LoadModelRequest {
@@ -61,24 +53,20 @@ message SaveModelRequest {
     bool save_cache = 3;
 }
 
-message ListModelsRequest {
-    CollectionPath collection_path = 1;
-}
-
 message ListModelsReply {
-    repeated ModelInfo models = 1;
+    repeated ModelInfo objects = 1;
 }
 
 service Model {
-    rpc List(ListModelsRequest) returns (ListModelsReply);
+    rpc List(ListRequest) returns (ListModelsReply);
 
-    rpc Get(ModelRequest) returns (ModelInfo);
+    rpc Get(GetRequest) returns (ModelInfo);
 
     rpc Put(ModelInfo) returns (ModelInfo);
 
-    rpc Delete(DeleteModelRequest) returns (Empty);
+    rpc Delete(DeleteRequest) returns (Empty);
 
-    rpc Update(UpdateModelRequest) returns (ModelInfo); // TODO: return changed entitites
+    rpc Update(UpdateModelRequest) returns (ModelInfo); // TODO: return changed entitites (?)
 
     rpc LoadFromFile(LoadModelRequest) returns (ModelInfo);
 

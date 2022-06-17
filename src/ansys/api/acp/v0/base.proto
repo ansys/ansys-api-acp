@@ -1,7 +1,6 @@
 syntax = "proto3";
-package ansys.api.acp.v0;
+package ansys.api.acp.v0; // TO DISCUSS: Should we use a '.base' namespace here?
 
-// TODO: use ansys.api.kernel.v0 message types
 message Empty {
 }
 
@@ -18,4 +17,17 @@ message BasicInfo {
     string name = 2;
     string id = 3;
     int64 version = 4;
+}
+
+message GetRequest {
+    ResourcePath resource_path = 1;
+}
+
+message DeleteRequest {
+    ResourcePath resource_path = 1;
+    int64 version = 2;
+}
+
+message ListRequest {
+    CollectionPath collection_path = 1;
 }

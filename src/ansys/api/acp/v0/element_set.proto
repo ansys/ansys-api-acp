@@ -5,11 +5,6 @@ import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
-message ElementSetRequest {
-    ResourcePath resource_path = 1;
-    // TODO: add a 'view' that determines which parts are returned
-}
-
 message ElementSetProperties {
     enum_types.StatusType status = 1;
     bool locked = 2;
@@ -17,43 +12,29 @@ message ElementSetProperties {
     array_types.IntArray element_labels = 4;
 }
 
-message ElementSetReply {
+message ElementSetInfo {
     BasicInfo info = 1;
     ElementSetProperties properties = 2;
-}
-
-message PutElementSetRequest {
-    BasicInfo info = 1;
-    ElementSetProperties properties = 2;
-}
-
-message DeleteElementSetRequest {
-    BasicInfo info = 1;
-}
-
-message ListElementSetsRequest {
-    CollectionPath collection_path = 1;
 }
 
 message ListElementSetsReply {
-    repeated ElementSetReply element_sets = 1;
+    repeated ElementSetInfo objects = 1;
 }
 
 message CreateElementSetRequest {
     CollectionPath collection_path = 1;
     string name = 2;
     ElementSetProperties properties = 3;
-
 }
 
 service ElementSet {
-    rpc List(ListElementSetsRequest) returns (ListElementSetsReply);
+    rpc List(ListRequest) returns (ListElementSetsReply);
 
-    rpc Get(ElementSetRequest) returns (ElementSetReply);
+    rpc Get(GetRequest) returns (ElementSetInfo);
 
-    rpc Put(PutElementSetRequest) returns (ElementSetReply);
+    rpc Put(ElementSetInfo) returns (ElementSetInfo);
 
-    rpc Delete(DeleteElementSetRequest) returns (Empty);
+    rpc Delete(DeleteRequest) returns (Empty);
 
-    rpc Create(CreateElementSetRequest) returns (ElementSetReply);
+    rpc Create(CreateElementSetRequest) returns (ElementSetInfo);
 }
