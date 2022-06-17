@@ -18,7 +18,7 @@ message RosetteRequest {
 }
 
 message RosetteProperties {
-    StatusType status = 1;
+    enum_types.StatusType status = 1;
     bool locked = 2;
     Type rosette_type = 3;
     array_types.DoubleArray origin = 4;

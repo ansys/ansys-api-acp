@@ -5,3 +5,8 @@ message DoubleArray {
   repeated int64 shape = 1 [packed=true];
   repeated double data = 2 [packed=true];
 }
+
+message IntArray {
+    repeated int64 data = 1 [packed=true];
+    repeated int64 shape = 2 [packed=true];
+}
