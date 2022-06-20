@@ -11,8 +11,8 @@ enum Format {
     NASTRAN_BDF = 4;
 }
 
-message ModelInfo {
-    BasicInfo info = 1;
+message ObjectInfo {
+    base.BasicInfo info = 1;
     message ModelingProperties {
         bool use_nodal_thicknesses = 1;
         bool draping_offset_correction = 2;
@@ -24,11 +24,11 @@ message ModelInfo {
     ModelingProperties properties = 2;
 }
 
-message LoadModelRequest {
+message LoadFromFileRequest {
     string path = 1;
 }
 
-message LoadFEModelRequest {
+message LoadFromFEFileRequest {
     string path = 1;
     Format format = 2;
     enum IgnorableEntity {
@@ -42,35 +42,35 @@ message LoadFEModelRequest {
     bool convert_section_data = 4;
 }
 
-message UpdateModelRequest {
-    ResourcePath resource_path = 1;
+message UpdateRequest {
+    base.ResourcePath resource_path = 1;
     bool relations_only = 2;
 }
 
-message SaveModelRequest {
-    ResourcePath resource_path = 1;
+message SaveToFileRequest {
+    base.ResourcePath resource_path = 1;
     string path = 2;
     bool save_cache = 3;
 }
 
-message ListModelsReply {
-    repeated ModelInfo objects = 1;
+message ListReply {
+    repeated ObjectInfo objects = 1;
 }
 
-service Model {
-    rpc List(ListRequest) returns (ListModelsReply);
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
 
-    rpc Get(GetRequest) returns (ModelInfo);
+    rpc Get(base.GetRequest) returns (ObjectInfo);
 
-    rpc Put(ModelInfo) returns (ModelInfo);
+    rpc Put(ObjectInfo) returns (ObjectInfo);
 
-    rpc Delete(DeleteRequest) returns (Empty);
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
 
-    rpc Update(UpdateModelRequest) returns (ModelInfo); // TODO: return changed entitites (?)
+    rpc Update(UpdateRequest) returns (ObjectInfo);
 
-    rpc LoadFromFile(LoadModelRequest) returns (ModelInfo);
+    rpc LoadFromFile(LoadFromFileRequest) returns (ObjectInfo);
 
-    rpc LoadFromFEFile(LoadFEModelRequest) returns (ModelInfo);
+    rpc LoadFromFEFile(LoadFromFEFileRequest) returns (ObjectInfo);
 
-    rpc SaveToFile(SaveModelRequest) returns (Empty);
+    rpc SaveToFile(SaveToFileRequest) returns (base.Empty);
 }

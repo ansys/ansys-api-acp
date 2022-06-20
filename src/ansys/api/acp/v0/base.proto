@@ -1,5 +1,5 @@
 syntax = "proto3";
-package ansys.api.acp.v0; // TO DISCUSS: Should we use a '.base' namespace here?
+package ansys.api.acp.v0.base;
 
 message Empty {
 }

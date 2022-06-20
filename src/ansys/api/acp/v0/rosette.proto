@@ -13,7 +13,7 @@ enum Type {
         EDGE_WISE = 4;
 }
 
-message RosetteProperties {
+message Properties {
     enum_types.StatusType status = 1;
     bool locked = 2;
     Type rosette_type = 3;
@@ -22,29 +22,29 @@ message RosetteProperties {
     array_types.DoubleArray dir2 = 6;
 }
 
-message RosetteInfo {
-    BasicInfo info = 1;
-    RosetteProperties properties = 2;
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
 }
 
-message ListRosettesReply {
-    repeated RosetteInfo objects = 1;
+message ListReply {
+    repeated ObjectInfo objects = 1;
 }
 
-message CreateRosetteRequest {
-    CollectionPath collection_path = 1;
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
     string name = 2;
-    RosetteProperties properties = 3;
+    Properties properties = 3;
 }
 
-service Rosette {
-    rpc List(ListRequest) returns (ListRosettesReply);
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
 
-    rpc Get(GetRequest) returns (RosetteInfo);
+    rpc Get(base.GetRequest) returns (ObjectInfo);
 
-    rpc Put(RosetteInfo) returns (RosetteInfo);
+    rpc Put(ObjectInfo) returns (ObjectInfo);
 
-    rpc Delete(DeleteRequest) returns (Empty);
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
 
-    rpc Create(CreateRosetteRequest) returns (RosetteInfo);
+    rpc Create(CreateRequest) returns (ObjectInfo);
 }
