@@ -1,0 +1,15 @@
+syntax = "proto3";
+package ansys.api.acp.v0.ply_material;
+
+//defines the draping model (algorithm)
+enum DrapingMaterialType {
+    WOVEN = 0;
+    UD = 1;
+}
+
+//defines the symmetry-type for stackups, sublaminates etc
+enum SymmetryType { 
+    NO_SYMMETRY = 0;
+    EVEN_SYMMETRY = 1;
+    ODD_SYMMETRY = 2;
+}
