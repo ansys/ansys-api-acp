@@ -1,5 +1,5 @@
 syntax = "proto3";
-package ansys.api.acp.v0.modeling_group;
+package ansys.api.acp.v0.material;
 
 import "ansys/api/acp/v0/base.proto";
 
