@@ -1,0 +1,38 @@
+syntax = "proto3";
+package ansys.api.acp.v0.modeling_ply;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+message Properties {
+    enum_types.StatusType status = 1;
+    repeated base.ResourcePath oriented_selection_sets = 2;
+    base.ResourcePath material = 3;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply {
+    repeated ObjectInfo objects = 1;
+}
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
