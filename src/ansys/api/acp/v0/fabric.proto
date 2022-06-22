@@ -1,0 +1,48 @@
+syntax = "proto3";
+package ansys.api.acp.v0.fabric;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/ply_material.proto";
+import "ansys/api/acp/v0/cut_off_material.proto";
+import "ansys/api/acp/v0/drop_off_material.proto";
+
+message Properties {
+    enum_types.StatusType status = 1;
+    double thickness = 2;
+    double area_price = 3;
+    bool ignore_for_postprocessing = 4;
+    drop_off_material.MaterialHandlingType drop_off_material_handling = 5;
+    cut_off_material.MaterialHandlingType cut_off_material_handling = 6;
+    ply_material.DrapingMaterialType draping_material_model = 7;
+    double draping_ud_coefficient = 8;
+
+    base.ResourcePath material = 9;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply {
+    repeated ObjectInfo objects = 1;
+}
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package ansys.api.acp.v0.cut_off_material;
+
+//defines the source of the cut-off material
+enum MaterialHandlingType {
+    COMPUTED = 0;
+    GLOBAL = 1;
+    CUSTOM = 2;
+}
