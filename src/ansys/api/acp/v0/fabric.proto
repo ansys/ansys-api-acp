@@ -16,6 +16,8 @@ message Properties {
     cut_off_material.MaterialHandlingType cut_off_material_handling = 6;
     ply_material.DrapingMaterialType draping_material_model = 7;
     double draping_ud_coefficient = 8;
+
+    base.ResourcePath material = 9;
 }
 
 message ObjectInfo {
