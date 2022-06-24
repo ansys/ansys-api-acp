@@ -7,7 +7,7 @@ import "ansys/api/acp/v0/enum_types.proto";
 message Properties {
     enum_types.StatusType status = 1;
     repeated base.ResourcePath oriented_selection_sets = 2;
-    base.ResourcePath material = 3;
+    base.ResourcePath ply_material = 3;
 }
 
 message ObjectInfo {
