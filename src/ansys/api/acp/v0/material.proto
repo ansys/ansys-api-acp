@@ -2,8 +2,11 @@ syntax = "proto3";
 package ansys.api.acp.v0.material;
 
 import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
 
 message Properties {
+    enum_types.StatusType status = 1;
+    bool locked = 2;
 }
 
 message ObjectInfo {

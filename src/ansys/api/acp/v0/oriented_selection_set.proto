@@ -3,10 +3,18 @@ package ansys.api.acp.v0.oriented_selection_set;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
     repeated base.ResourcePath element_sets = 2;
+    array_types.DoubleArray orientation_point = 3;
+    array_types.DoubleArray orientation_direction = 4;
+    repeated base.ResourcePath rosettes = 5;
+    enum_types.RosetteSelectionMethod rosette_selection_method = 6;
+    // TODO: tabular values
+    // TODO: selection rules
+    // TODO: draping
 }
 
 message ObjectInfo {

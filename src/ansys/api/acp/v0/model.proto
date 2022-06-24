@@ -3,29 +3,38 @@ package ansys.api.acp.v0.model;
 
 import "ansys/api/acp/v0/base.proto";
 
+// Default CRUD messages
+
+message Properties {
+    bool use_nodal_thicknesses = 1;
+    bool draping_offset_correction = 2;
+    bool use_default_section_tolerances = 3;
+    double angle_tolerance = 4;
+    double relative_thickness_tolerance = 5;
+    double minimum_analysis_ply_thickness = 6;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply {
+    repeated ObjectInfo objects = 1;
+}
+
+message LoadFromFileRequest {
+    string path = 1;
+}
+
+// Special Model messages
+
 enum Format {
     ANSYS_H5 = 0;
     ANSYS_CDB = 1;
     ANSYS_DAT = 2;
     ABAQUS_INP = 3;
     NASTRAN_BDF = 4;
-}
-
-message ObjectInfo {
-    base.BasicInfo info = 1;
-    message ModelingProperties {
-        bool use_nodal_thicknesses = 1;
-        bool draping_offset_correction = 2;
-        bool use_default_section_tolerances = 3;
-        double angle_tolerance = 4;
-        double relative_thickness_tolerance = 5;
-        double minimum_analysis_ply_thickness = 6;
-    }
-    ModelingProperties properties = 2;
-}
-
-message LoadFromFileRequest {
-    string path = 1;
 }
 
 message LoadFromFEFileRequest {
@@ -53,9 +62,6 @@ message SaveToFileRequest {
     bool save_cache = 3;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
 
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
