@@ -8,6 +8,10 @@ message Properties {
     enum_types.StatusType status = 1;
     repeated base.ResourcePath oriented_selection_sets = 2;
     base.ResourcePath ply_material = 3;
+    double ply_angle = 4;
+    int64 number_of_layers = 5;
+    bool active = 6;
+    int64 global_ply_nr = 7;
 }
 
 message ObjectInfo {
