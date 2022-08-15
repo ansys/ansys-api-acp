@@ -8,7 +8,11 @@ import "ansys/api/acp/v0/base.proto";
 message Properties {
     bool use_nodal_thicknesses = 1;
     bool draping_offset_correction = 2;
-    bool use_default_section_tolerances = 3;
+    // Note dgresch Jul'22: The 'use_default_section_tolerances' value is
+    // stored in the backend, but getting the default values is implemented
+    // in the ACP GUI Python code. As such, it doesn't make sense to include
+    // it here unless / until PyACP also has a method of implementing defaults.
+    // bool use_default_section_tolerances = 3;
     double angle_tolerance = 4;
     double relative_thickness_tolerance = 5;
     double minimum_analysis_ply_thickness = 6;
