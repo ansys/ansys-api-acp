@@ -4,6 +4,8 @@ package ansys.api.acp.v0.material;
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
+// Default CRUD messages
+
 message Properties {
     enum_types.StatusType status = 1;
     bool locked = 2;
@@ -24,6 +26,22 @@ message CreateRequest {
     Properties properties = 3;
 }
 
+// Special Material messages
+
+message SaveToFileRequest {
+    base.CollectionPath collection_path = 1;
+    string path = 2;
+    enum Format {
+        ANSYS_XML = 0;
+
+        // The CSV and ESACOMP_XML formats are implemented in the ACP
+        // GUI, and hence cannot (currently) be exposed via the gRPC API.
+        // CSV = 1;
+        // ESACOMP_XML = 2;
+    }
+    Format format = 3;
+}
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
@@ -34,4 +52,6 @@ service ObjectService {
     rpc Delete(base.DeleteRequest) returns (base.Empty);
 
     rpc Create(CreateRequest) returns (ObjectInfo);
+
+    rpc SaveToFile(SaveToFileRequest) returns (base.Empty);
 }
