@@ -71,6 +71,10 @@ message SaveAnalysisModelRequest {
     string path = 2;
 }
 
+message SaveShellCompositeDefinitionsRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+}
 
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
@@ -90,4 +94,6 @@ service ObjectService {
     rpc SaveToFile(SaveToFileRequest) returns (base.Empty);
 
     rpc SaveAnalysisModel(SaveAnalysisModelRequest) returns (base.Empty);
+
+    rpc SaveShellCompositeDefinitions(SaveShellCompositeDefinitionsRequest) returns (base.Empty);
 }
