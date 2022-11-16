@@ -3,12 +3,15 @@ package ansys.api.acp.v0.material;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/ply_type.proto";
 
 // Default CRUD messages
 
 message Properties {
+    //This is only a minimal set. List is not complete yet
     enum_types.StatusType status = 1;
     bool locked = 2;
+    ply_type.PlyType ply_type = 3;
 }
 
 message ObjectInfo {
