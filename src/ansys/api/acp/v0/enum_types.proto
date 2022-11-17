@@ -18,3 +18,17 @@ enum RosetteSelectionMethod {
     ANSYS_CLASSIC = 6;
     DIRECTIONS_FROM_TABULAR_VALUES = 7;
 }
+
+//defines the ply type which is used for instance by the solid model
+//extrusion and the post-processing to distinguish between isotropic, 
+//reinforced, and core materials
+enum PlyType {
+    REGULAR = 0;
+    WOVEN = 1;
+    ORTHOTROPIC_HOMOGENEOUS_CORE = 2;
+    ISOTROPIC_HOMOGENEOUS_CORE = 3;
+    HONEYCOMB_CORE = 4;
+    ISOTROPIC = 5;
+    UNDEFINED = 6;
+    ADHESIVE = 7;
+}

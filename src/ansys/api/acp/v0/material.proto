@@ -7,8 +7,10 @@ import "ansys/api/acp/v0/enum_types.proto";
 // Default CRUD messages
 
 message Properties {
+    //This is only a minimal set. List is not complete yet
     enum_types.StatusType status = 1;
     bool locked = 2;
+    enum_types.PlyType ply_type = 3;
 }
 
 message ObjectInfo {
