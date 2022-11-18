@@ -5,6 +5,17 @@ import "ansys/api/acp/v0/base.proto";
 
 // Default CRUD messages
 
+enum UnitSystemType {
+    US_UNDEFINED = 0;
+    SI = 1;
+    MKS = 2;
+    uMKS = 3;
+    CGS = 4;
+    MPA = 5;
+    BFT = 6;
+    BIN = 7;
+}
+
 message Properties {
     bool use_nodal_thicknesses = 1;
     bool draping_offset_correction = 2;
@@ -16,6 +27,8 @@ message Properties {
     double angle_tolerance = 4;
     double relative_thickness_tolerance = 5;
     double minimum_analysis_ply_thickness = 6;
+    // read only property
+    UnitSystemType unit_system = 7;
 }
 
 message ObjectInfo {
@@ -53,6 +66,7 @@ message LoadFromFEFileRequest {
     }
     repeated IgnorableEntity ignored_entities = 3;
     bool convert_section_data = 4;
+    UnitSystemType unit_system = 5;
 }
 
 message UpdateRequest {
