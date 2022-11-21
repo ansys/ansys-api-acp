@@ -2,6 +2,7 @@ syntax = "proto3";
 package ansys.api.acp.v0.model;
 
 import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/unit_system.proto";
 
 // Default CRUD messages
 
@@ -16,6 +17,8 @@ message Properties {
     double angle_tolerance = 4;
     double relative_thickness_tolerance = 5;
     double minimum_analysis_ply_thickness = 6;
+    // read only property
+    unit_system.UnitSystemType unit_system = 7;
 }
 
 message ObjectInfo {
@@ -53,6 +56,7 @@ message LoadFromFEFileRequest {
     }
     repeated IgnorableEntity ignored_entities = 3;
     bool convert_section_data = 4;
+    unit_system.UnitSystemType unit_system = 5;
 }
 
 message UpdateRequest {

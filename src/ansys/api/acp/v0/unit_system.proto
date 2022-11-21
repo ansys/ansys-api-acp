@@ -1,0 +1,16 @@
+syntax = "proto3";
+package ansys.api.acp.v0.unit_system;
+
+import "ansys/api/acp/v0/base.proto";
+
+// only the unit system type is exposed at the moment.
+enum UnitSystemType {
+    UNDEFINED = 0;
+    SI = 1;
+    MKS = 2;
+    uMKS = 3;
+    CGS = 4;
+    MPA = 5;
+    BFT = 6;
+    BIN = 7;
+}
