@@ -2,19 +2,9 @@ syntax = "proto3";
 package ansys.api.acp.v0.model;
 
 import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/unit_system.proto";
 
 // Default CRUD messages
-
-enum UnitSystemType {
-    US_UNDEFINED = 0;
-    SI = 1;
-    MKS = 2;
-    uMKS = 3;
-    CGS = 4;
-    MPA = 5;
-    BFT = 6;
-    BIN = 7;
-}
 
 message Properties {
     bool use_nodal_thicknesses = 1;
@@ -28,7 +18,7 @@ message Properties {
     double relative_thickness_tolerance = 5;
     double minimum_analysis_ply_thickness = 6;
     // read only property
-    UnitSystemType unit_system = 7;
+    unit_system.UnitSystemType unit_system = 7;
 }
 
 message ObjectInfo {
@@ -66,7 +56,7 @@ message LoadFromFEFileRequest {
     }
     repeated IgnorableEntity ignored_entities = 3;
     bool convert_section_data = 4;
-    UnitSystemType unit_system = 5;
+    unit_system.UnitSystemType unit_system = 5;
 }
 
 message UpdateRequest {
