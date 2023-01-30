@@ -1,0 +1,48 @@
+syntax = "proto3";
+package ansys.api.acp.v0.edge_set;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/array_types.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+enum EdgeSetType {
+    BY_NODES = 0;
+    BY_REFERENCE = 1;
+}
+
+message Properties {
+    enum_types.StatusType status = 1;
+    bool locked = 2;
+    EdgeSetType edge_set_type = 3;
+    array_types.IntArray defining_node_labels = 4;
+    base.ResourcePath element_set = 5;
+    double limit_angle = 6;
+    array_types.DoubleArray origin = 7;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply {
+    repeated ObjectInfo objects = 1;
+}
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
