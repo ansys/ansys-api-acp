@@ -6,8 +6,8 @@ import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 enum EdgeSetType {
-    BY_NODES = 0;
-    BY_REFERENCE = 1;
+    BY_REFERENCE = 0;
+    BY_NODES = 1;
 }
 
 message Properties {
