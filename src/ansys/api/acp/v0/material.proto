@@ -21,28 +21,25 @@ message InterpolationOptions {
 }
 
 message DensityPropertySet {
-    int64 num_values = 1;
     message Data {
         double rho = 1;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message IsotropicEngineeringConstantsPropertySet {
-    int64 num_values = 1;
     message Data {
         double E = 1;
         double nu = 2;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message OrthotropicEngineeringConstantsPropertySet {
-    int64 num_values = 1;
     message Data {
         double E1 = 1;
         double E2 = 2;
@@ -54,22 +51,20 @@ message OrthotropicEngineeringConstantsPropertySet {
         double nu23 = 8;
         double nu13 = 9;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message IsotropicStressLimitsPropertySet {
-    int64 num_values = 1;
     message Data {
         double effective_stress = 1;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 message OrthotropicStressLimitsPropertySet {
-    int64 num_values = 1;
     message Data {
         double Xc = 1;
         double Yc = 2;
@@ -81,22 +76,20 @@ message OrthotropicStressLimitsPropertySet {
         double Syz = 8;
         double Sxz = 9;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message IsotropicStrainLimitsPropertySet {
-    int64 num_values = 1;
     message Data {
         double effective_strain = 1;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 message OrthotropicStrainLimitsPropertySet {
-    int64 num_values = 1;
     message Data {
         double eXc = 1;
         double eYc = 2;
@@ -108,13 +101,12 @@ message OrthotropicStrainLimitsPropertySet {
         double eSyz = 8;
         double eSxz = 9;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message PuckConstantsPropertySet {
-    int64 num_values = 1;
     message Data {
         double p_21_pos = 1;
         double p_21_neg = 2;
@@ -124,14 +116,13 @@ message PuckConstantsPropertySet {
         double M = 6;
         double interface_weakening_factor = 7;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
-    string mat_type = 5;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+    string mat_type = 4;
 }
 
 message WovenCharacterizationPropertySet {
-    int64 num_values = 1;
     message Data {
         double orientation_1 = 1;
         double E1_1 = 2;
@@ -146,25 +137,23 @@ message WovenCharacterizationPropertySet {
         double G23_2 = 11;
         double nu12_2 = 12;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message TsaiWuConstantsPropertySet {
-    int64 num_values = 1;
     message Data {
         double XY = 1;
         double XZ = 2;
         double YZ = 3;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message LaRCConstantsPropertySet {
-    int64 num_values = 1;
     message Data {
         double fracture_angle_under_compression = 1;
         double fracture_toughness_ratio = 2;
@@ -172,19 +161,18 @@ message LaRCConstantsPropertySet {
         double fracture_toughness_mode_2 = 4;
         double thin_ply_thickness_limit = 5;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message FabricFiberAnglePropertySet {
-    int64 num_values = 1;
     message Data {
         double fabric_fiber_angle = 1;
     }
-    repeated Data values = 2;
-    repeated FieldVariable field_variables = 3;
-    InterpolationOptions interpolation_options = 4;
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
 }
 
 message Properties {
