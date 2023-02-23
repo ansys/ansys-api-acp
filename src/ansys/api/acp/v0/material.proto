@@ -180,6 +180,22 @@ message Properties {
     bool locked = 2;
     enum_types.PlyType ply_type = 3;
 
+    /**
+     * The material property sets are dependent on the 'ply_type':
+     * - In read APIs (Get, List), only the material properties which
+     *   match the 'ply_type' will be provided. For property sets which
+     *   have orthotropic and isotropic variants, the appropriate one is
+     *   provided.
+     * - In write APIs (Put, Create) all property sets _except engineering
+     *   constants_ can be specified independently of the ply type. They
+     *   will be stored in the back-end, but may be ignored by further
+     *   processing if they do not match the ply type.
+     *   For engineering constants, if an isotropic ply type is given, the
+     *   constants need to be isotropic. Two forms are accepted:
+     *   - specifying 'engineering_constants_isotropic'
+     *   - specifying 'engineering_constants_orthotropic' where the
+     *     values are consistent with an isotropic material.
+     **/
     message PropertySets {
         DensityPropertySet density = 1;
         oneof engineering_constants {
