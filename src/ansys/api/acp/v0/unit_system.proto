@@ -1,8 +1,6 @@
 syntax = "proto3";
 package ansys.api.acp.v0.unit_system;
 
-import "ansys/api/acp/v0/base.proto";
-
 // only the unit system type is exposed at the moment.
 enum UnitSystemType {
     UNDEFINED = 0;

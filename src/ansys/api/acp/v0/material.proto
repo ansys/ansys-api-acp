@@ -6,11 +6,225 @@ import "ansys/api/acp/v0/enum_types.proto";
 
 // Default CRUD messages
 
+message FieldVariable {
+    string name = 1;
+    repeated double values = 2;
+    double default = 3;
+    double lower_limit = 4;
+    double upper_limit = 5;
+}
+
+message InterpolationOptions {
+    string algorithm = 1;
+    bool cached = 2;
+    bool normalized = 3;
+}
+
+message DensityPropertySet {
+    message Data {
+        double rho = 1;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message IsotropicEngineeringConstantsPropertySet {
+    message Data {
+        double E = 1;
+        double nu = 2;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message OrthotropicEngineeringConstantsPropertySet {
+    message Data {
+        double E1 = 1;
+        double E2 = 2;
+        double E3 = 3;
+        double G12 = 4;
+        double G23 = 5;
+        double G31 = 6;
+        double nu12 = 7;
+        double nu23 = 8;
+        double nu13 = 9;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message IsotropicStressLimitsPropertySet {
+    message Data {
+        double effective_stress = 1;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+message OrthotropicStressLimitsPropertySet {
+    message Data {
+        double Xc = 1;
+        double Yc = 2;
+        double Zc = 3;
+        double Xt = 4;
+        double Yt = 5;
+        double Zt = 6;
+        double Sxy = 7;
+        double Syz = 8;
+        double Sxz = 9;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message IsotropicStrainLimitsPropertySet {
+    message Data {
+        double effective_strain = 1;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+message OrthotropicStrainLimitsPropertySet {
+    message Data {
+        double eXc = 1;
+        double eYc = 2;
+        double eZc = 3;
+        double eXt = 4;
+        double eYt = 5;
+        double eZt = 6;
+        double eSxy = 7;
+        double eSyz = 8;
+        double eSxz = 9;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message PuckConstantsPropertySet {
+    message Data {
+        double p_21_pos = 1;
+        double p_21_neg = 2;
+        double p_22_pos = 3;
+        double p_22_neg = 4;
+        double s = 5;
+        double M = 6;
+        double interface_weakening_factor = 7;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+    string mat_type = 4;
+}
+
+message WovenCharacterizationPropertySet {
+    message Data {
+        double orientation_1 = 1;
+        double E1_1 = 2;
+        double E2_1 = 3;
+        double G12_1 = 4;
+        double G23_1 = 5;
+        double nu12_1 = 6;
+        double orientation_2 = 7;
+        double E1_2 = 8;
+        double E2_2 = 9;
+        double G12_2 = 10;
+        double G23_2 = 11;
+        double nu12_2 = 12;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message TsaiWuConstantsPropertySet {
+    message Data {
+        double XY = 1;
+        double XZ = 2;
+        double YZ = 3;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message LaRCConstantsPropertySet {
+    message Data {
+        double fracture_angle_under_compression = 1;
+        double fracture_toughness_ratio = 2;
+        double fracture_toughness_mode_1 = 3;
+        double fracture_toughness_mode_2 = 4;
+        double thin_ply_thickness_limit = 5;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message FabricFiberAnglePropertySet {
+    message Data {
+        double fabric_fiber_angle = 1;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
 message Properties {
-    //This is only a minimal set. List is not complete yet
     enum_types.StatusType status = 1;
     bool locked = 2;
     enum_types.PlyType ply_type = 3;
+
+    /**
+     * The material property sets are dependent on the 'ply_type':
+     * - In read APIs (Get, List), only the material properties which
+     *   match the 'ply_type' will be provided. For property sets which
+     *   have orthotropic and isotropic variants, the appropriate one is
+     *   provided.
+     * - In write APIs (Put, Create) all property sets _except engineering
+     *   constants_ can be specified independently of the ply type. They
+     *   will be stored in the back-end, but may be ignored by further
+     *   processing if they do not match the ply type.
+     *   For engineering constants, if an isotropic ply type is given, the
+     *   constants need to be isotropic. Two forms are accepted:
+     *   - specifying 'engineering_constants_isotropic'
+     *   - specifying 'engineering_constants_orthotropic' where the
+     *     values are consistent with an isotropic material.
+     **/
+    message PropertySets {
+        DensityPropertySet density = 1;
+        oneof engineering_constants {
+            IsotropicEngineeringConstantsPropertySet engineering_constants_isotropic = 2;
+            OrthotropicEngineeringConstantsPropertySet engineering_constants_orthotropic = 3;
+        }
+        oneof stress_limits {
+            IsotropicStressLimitsPropertySet stress_limits_isotropic = 4;
+            OrthotropicStressLimitsPropertySet stress_limits_orthotropic = 5;
+        }
+        oneof strain_limits {
+            IsotropicStrainLimitsPropertySet strain_limits_isotropic = 6;
+            OrthotropicStrainLimitsPropertySet strain_limits_orthotropic = 7;
+        }
+        PuckConstantsPropertySet puck_constants = 8;
+
+        // intentionally left out for now:
+        // thermal_expansion_coefficients = 9;
+
+        WovenCharacterizationPropertySet woven_characterization = 10;
+        PuckConstantsPropertySet woven_puck_constants_1 = 11;
+        PuckConstantsPropertySet woven_puck_constants_2 = 12;
+        OrthotropicStressLimitsPropertySet woven_stress_limits_1 = 13;
+        OrthotropicStressLimitsPropertySet woven_stress_limits_2 = 14;
+        TsaiWuConstantsPropertySet tsai_wu_constants = 15;
+        LaRCConstantsPropertySet larc_constants = 16;
+        FabricFiberAnglePropertySet fabric_fiber_angle = 17;
+    }
+    PropertySets property_sets = 4;
 }
 
 message ObjectInfo {
