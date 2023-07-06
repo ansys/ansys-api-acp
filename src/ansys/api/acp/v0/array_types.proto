@@ -10,3 +10,8 @@ message IntArray {
     repeated int64 data = 1 [packed=true];
     repeated int64 shape = 2 [packed=true];
 }
+
+message Int32Array {
+    repeated int32 data = 1 [packed=true];
+    repeated int64 shape = 2 [packed=true];
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package ansys.api.acp.v0.mesh_query;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+message Mesh {
+    array_types.DoubleArray nodes = 1;
+    array_types.Int32Array element_nodes = 2;
+    array_types.Int32Array element_nodes_offsets = 3;
+    array_types.Int32Array element_types = 4;
+}
+
+service ObjectService  {
+    // GetRequest should contain the model resource_path.
+    rpc GetMesh (base.GetRequest) returns (Mesh);
+}
