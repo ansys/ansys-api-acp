@@ -1,0 +1,99 @@
+syntax = "proto3";
+package ansys.api.acp.v0.mesh_query;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+message DataArray {
+    oneof data {
+        array_types.DoubleArray double_array = 1;
+        array_types.IntArray int_array = 2;
+        array_types.Int32Array int32_array = 3;
+    }
+}
+
+message MeshData {
+    array_types.Int32Array node_labels = 1;
+    array_types.DoubleArray node_coordinates = 2;
+    array_types.Int32Array element_labels = 3;
+    array_types.Int32Array element_types = 4;
+    array_types.Int32Array element_nodes = 5;
+    array_types.Int32Array element_nodes_offsets = 6;
+}
+
+enum ElementalDataType {
+    ELEMENT_COORDINATES = 0;
+    ELEMENT_NORMAL = 1;
+    ELEMENT_ORIENTATION = 2;
+    ELEMENT_REFERENCE_DIRECTION = 3;
+    ELEMENT_FIBER_DIRECTION = 4;
+    ELEMENT_DRAPED_FIBER_DIRECTION = 5;
+    ELEMENT_TRANSVERSE_DIRECTION = 6;
+    ELEMENT_DRAPED_TRANSVERSE_DIRECTION = 7;
+    ELEMENT_THICKNESS = 8;
+    ELEMENT_RELATIVE_THICKNESS_CORRECTION = 9;
+    ELEMENT_DESIGN_ANGLE = 10;
+    ELEMENT_SHEAR_ANGLE = 11;
+    ELEMENT_DRAPED_FIBER_ANGLE = 12;
+    ELEMENT_DRAPED_TRANSVERSE_ANGLE = 13;
+    ELEMENT_AREA = 14;
+    ELEMENT_PRICE = 15;
+    ELEMENT_VOLUME = 16;
+    ELEMENT_MASS = 17;
+    ELEMENT_OFFSET = 18;
+    ELEMENT_MATERIAL_1_DIRECTION = 19;
+    ELEMENT_COG = 20;
+    // NOTE dgresch July '23: The elemental ply offset query currently returns
+    // the ply offset in absolute coordinates, instead of relative to the
+    // element. Since this is inconsistent with the nodal ply_offset, this query
+    // is currently disabled. ELEMENT_PLY_OFFSET = 21;
+}
+
+// message ElementScoping {
+//     enum ElementType {
+//         ALL = 0;
+//         SHELL = 1;
+//         SOLID = 2;
+//     }
+//     ElementType element_type = 1;
+// }
+
+message GetElementalDataRequest {
+    // The resource path determines both the entity whose data is being queried,
+    // as well as the scope for the elements.
+    // For example, if the resource path is models/<uuid>, then the data will be
+    // returned for all elements in the model.
+    // If the resource path represents a Modeling Ply, the scope will be limited
+    // to the elements in the ply, and the element data corresponding to the
+    // ply will be returned.
+    base.ResourcePath resource_path = 1;
+    repeated ElementalDataType data_types = 2;
+    // ElementScoping scoping = 3;
+}
+
+message ElementalData {
+    array_types.Int32Array labels = 1;
+    repeated ElementalDataType data_types = 2;
+    repeated DataArray data_arrays = 3;
+}
+
+enum NodalDataType {
+    NODE_PLY_OFFSET = 0;
+}
+
+message GetNodalDataRequest {
+    base.ResourcePath resource_path = 1;
+    repeated NodalDataType data_types = 2;
+}
+
+message NodalData {
+    array_types.Int32Array labels = 1;
+    repeated NodalDataType data_types = 2;
+    repeated DataArray data_arrays = 3;
+}
+
+service MeshQueryService {
+    rpc GetMeshData(base.GetRequest) returns (MeshData);
+    rpc GetElementalData(GetElementalDataRequest) returns (ElementalData);
+    rpc GetNodalData(GetNodalDataRequest) returns (NodalData);
+}

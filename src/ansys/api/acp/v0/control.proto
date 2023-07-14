@@ -3,6 +3,4 @@ package ansys.api.acp.v0.control;
 
 import "ansys/api/acp/v0/base.proto";
 
-service Control {
-    rpc ShutdownServer(base.Empty) returns (base.Empty);
-}
+service Control { rpc ShutdownServer(base.Empty) returns (base.Empty); }

@@ -26,13 +26,9 @@ message ObjectInfo {
     Properties properties = 2;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
+message ListReply { repeated ObjectInfo objects = 1; }
 
-message LoadFromFileRequest {
-    string path = 1;
-}
+message LoadFromFileRequest { string path = 1; }
 
 // Special Model messages
 
@@ -99,5 +95,6 @@ service ObjectService {
 
     rpc SaveAnalysisModel(SaveAnalysisModelRequest) returns (base.Empty);
 
-    rpc SaveShellCompositeDefinitions(SaveShellCompositeDefinitionsRequest) returns (base.Empty);
+    rpc SaveShellCompositeDefinitions(SaveShellCompositeDefinitionsRequest)
+        returns (base.Empty);
 }

@@ -1,7 +1,8 @@
 syntax = "proto3";
 package ansys.api.acp.v0.enum_types;
 
-//the initializers are different in the backend but here it has to be zero-based
+// the initializers are different in the backend but here it has to be
+// zero-based
 enum StatusType {
     UNKNOWN = 0;
     UPTODATE = 1;
@@ -19,9 +20,9 @@ enum RosetteSelectionMethod {
     DIRECTIONS_FROM_TABULAR_VALUES = 7;
 }
 
-//defines the ply type which is used for instance by the solid model
-//extrusion and the post-processing to distinguish between isotropic, 
-//reinforced, and core materials
+// defines the ply type which is used for instance by the solid model
+// extrusion and the post-processing to distinguish between isotropic,
+// reinforced, and core materials
 enum PlyType {
     REGULAR = 0;
     WOVEN = 1;
