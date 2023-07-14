@@ -6,11 +6,11 @@ import "ansys/api/acp/v0/enum_types.proto";
 import "ansys/api/acp/v0/array_types.proto";
 
 enum Type {
-        PARALLEL = 0;
-        RADIAL = 1;
-        CYLINDRICAL = 2;
-        SPHERICAL = 3;
-        EDGE_WISE = 4;
+    PARALLEL = 0;
+    RADIAL = 1;
+    CYLINDRICAL = 2;
+    SPHERICAL = 3;
+    EDGE_WISE = 4;
 }
 
 message Properties {
@@ -27,9 +27,7 @@ message ObjectInfo {
     Properties properties = 2;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
+message ListReply { repeated ObjectInfo objects = 1; }
 
 message CreateRequest {
     base.CollectionPath collection_path = 1;

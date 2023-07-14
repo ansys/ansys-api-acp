@@ -43,11 +43,10 @@ enum ElementalDataType {
     ELEMENT_OFFSET = 18;
     ELEMENT_MATERIAL_1_DIRECTION = 19;
     ELEMENT_COG = 20;
-    // NOTE dgresch July '23: The elemental ply offset query currently returns the
-    // ply offset in absolute coordinates, instead of relative to the element. Since
-    // this is inconsistent with the nodal ply_offset, this query is currently
-    // disabled.
-    // ELEMENT_PLY_OFFSET = 21;
+    // NOTE dgresch July '23: The elemental ply offset query currently returns
+    // the ply offset in absolute coordinates, instead of relative to the
+    // element. Since this is inconsistent with the nodal ply_offset, this query
+    // is currently disabled. ELEMENT_PLY_OFFSET = 21;
 }
 
 // message ElementScoping {
@@ -93,8 +92,8 @@ message NodalData {
     repeated DataArray data_arrays = 3;
 }
 
-service MeshQueryService  {
-    rpc GetMeshData (base.GetRequest) returns (MeshData);
-    rpc GetElementalData (GetElementalDataRequest) returns (ElementalData);
-    rpc GetNodalData (GetNodalDataRequest) returns (NodalData);
+service MeshQueryService {
+    rpc GetMeshData(base.GetRequest) returns (MeshData);
+    rpc GetElementalData(GetElementalDataRequest) returns (ElementalData);
+    rpc GetNodalData(GetNodalDataRequest) returns (NodalData);
 }

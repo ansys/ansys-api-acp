@@ -25,9 +25,7 @@ message ObjectInfo {
     Properties properties = 2;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
+message ListReply { repeated ObjectInfo objects = 1; }
 
 message CreateRequest {
     base.CollectionPath collection_path = 1;
