@@ -3,14 +3,17 @@ package ansys.api.acp.v0.modeling_group;
 
 import "ansys/api/acp/v0/base.proto";
 
-message Properties {}
+message Properties {
+}
 
 message ObjectInfo {
     base.BasicInfo info = 1;
     Properties properties = 2;
 }
 
-message ListReply { repeated ObjectInfo objects = 1; }
+message ListReply {
+    repeated ObjectInfo objects = 1;
+}
 
 message CreateRequest {
     base.CollectionPath collection_path = 1;
