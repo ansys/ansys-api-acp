@@ -1,5 +1,5 @@
 syntax = "proto3";
-package ansys.api.acp.v0.fabric;
+package ansys.api.acp.v0.stackup;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
@@ -7,17 +7,27 @@ import "ansys/api/acp/v0/ply_material.proto";
 import "ansys/api/acp/v0/cut_off_material.proto";
 import "ansys/api/acp/v0/drop_off_material.proto";
 
+message FabricWithAngle {
+    base.ResourcePath fabric = 1;
+    double angle = 2;
+}
+
 message Properties {
+    // general properties
     enum_types.StatusType status = 1;
-    double thickness = 2;
-    double area_price = 3;
-    bool ignore_for_postprocessing = 4;
-    drop_off_material.MaterialHandlingType drop_off_material_handling = 5;
-    cut_off_material.MaterialHandlingType cut_off_material_handling = 6;
-    ply_material.DrapingMaterialType draping_material_model = 7;
-    double draping_ud_coefficient = 8;
-    base.ResourcePath material = 9;
-    // todo: drop-off and cut-off material links (resource path)
+    ply_material.SymmetryType symmetry = 2;
+    // topdown=True: the first fabric in the list is placed first in the mold
+    bool topdown = 3;
+    double area_price = 4;
+    repeated FabricWithAngle fabrics = 5;
+    // draping
+    ply_material.DrapingMaterialType draping_material_model = 6;
+    double draping_ud_coefficient = 7;
+    // solid model options
+    drop_off_material.MaterialHandlingType drop_off_material_handling = 8;
+    base.ResourcePath drop_off_material = 9;
+    cut_off_material.MaterialHandlingType cut_off_material_handling = 10;
+    base.ResourcePath cut_off_material = 11;
 }
 
 message ObjectInfo {
@@ -25,9 +35,7 @@ message ObjectInfo {
     Properties properties = 2;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
+message ListReply { repeated ObjectInfo objects = 1; }
 
 message CreateRequest {
     base.CollectionPath collection_path = 1;
