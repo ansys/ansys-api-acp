@@ -225,6 +225,9 @@ message Properties {
         FabricFiberAnglePropertySet fabric_fiber_angle = 17;
     }
     PropertySets property_sets = 4;
+
+    // Transfer ID (read only)
+    string ext_id = 5;
 }
 
 message ObjectInfo {
