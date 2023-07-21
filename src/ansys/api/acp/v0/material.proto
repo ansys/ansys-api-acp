@@ -21,9 +21,7 @@ message InterpolationOptions {
 }
 
 message DensityPropertySet {
-    message Data {
-        double rho = 1;
-    }
+    message Data { double rho = 1; }
     repeated Data values = 1;
     repeated FieldVariable field_variables = 2;
     InterpolationOptions interpolation_options = 3;
@@ -57,9 +55,7 @@ message OrthotropicEngineeringConstantsPropertySet {
 }
 
 message IsotropicStressLimitsPropertySet {
-    message Data {
-        double effective_stress = 1;
-    }
+    message Data { double effective_stress = 1; }
     repeated Data values = 1;
     repeated FieldVariable field_variables = 2;
     InterpolationOptions interpolation_options = 3;
@@ -82,9 +78,7 @@ message OrthotropicStressLimitsPropertySet {
 }
 
 message IsotropicStrainLimitsPropertySet {
-    message Data {
-        double effective_strain = 1;
-    }
+    message Data { double effective_strain = 1; }
     repeated Data values = 1;
     repeated FieldVariable field_variables = 2;
     InterpolationOptions interpolation_options = 3;
@@ -167,9 +161,7 @@ message LaRCConstantsPropertySet {
 }
 
 message FabricFiberAnglePropertySet {
-    message Data {
-        double fabric_fiber_angle = 1;
-    }
+    message Data { double fabric_fiber_angle = 1; }
     repeated Data values = 1;
     repeated FieldVariable field_variables = 2;
     InterpolationOptions interpolation_options = 3;
@@ -199,8 +191,10 @@ message Properties {
     message PropertySets {
         DensityPropertySet density = 1;
         oneof engineering_constants {
-            IsotropicEngineeringConstantsPropertySet engineering_constants_isotropic = 2;
-            OrthotropicEngineeringConstantsPropertySet engineering_constants_orthotropic = 3;
+            IsotropicEngineeringConstantsPropertySet
+                engineering_constants_isotropic = 2;
+            OrthotropicEngineeringConstantsPropertySet
+                engineering_constants_orthotropic = 3;
         }
         oneof stress_limits {
             IsotropicStressLimitsPropertySet stress_limits_isotropic = 4;
@@ -235,9 +229,7 @@ message ObjectInfo {
     Properties properties = 2;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
+message ListReply { repeated ObjectInfo objects = 1; }
 
 message CreateRequest {
     base.CollectionPath collection_path = 1;
