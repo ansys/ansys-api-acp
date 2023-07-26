@@ -1,0 +1,29 @@
+syntax = "proto3";
+package ansys.api.acp.v0.production_ply;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+message Properties {
+    enum_types.StatusType status = 1;
+    base.ResourcePath material = 2;
+    double thickness = 3;
+    double angle = 4;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply {
+    repeated ObjectInfo objects = 1;
+}
+
+
+service ObjectService {
+    // Object is generated on update and read-only =>
+    // only list and get endpoints.
+    rpc List(base.ListRequest) returns (ListReply);
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+}
