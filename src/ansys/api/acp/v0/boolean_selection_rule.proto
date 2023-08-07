@@ -3,24 +3,11 @@ package ansys.api.acp.v0.boolean_selection_rule;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
-
-enum BooleanOperationType {
-    INTERSECT = 0;
-    ADD = 1;
-    REMOVE = 2;
-}
-
-message LinkedSelectionRule {
-    base.ResourcePath resource_path = 1;
-    BooleanOperationType operation_type = 2;
-    bool template_rule = 3;
-    double parameter_1 = 4;
-    double parameter_2 = 5;
-}
+import "ansys/api/acp/v0/linked_selection_rule.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
-    repeated LinkedSelectionRule selection_rules = 2;
+    repeated linked_selection_rule.LinkedSelectionRule selection_rules = 2;
     bool include_rule_type = 3;
 }
 

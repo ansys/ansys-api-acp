@@ -1,0 +1,15 @@
+syntax = "proto3";
+package ansys.api.acp.v0.linked_selection_rule;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+// Defines a linked selection rule, as used in Boolean Selection Rules,
+// and in Modeling Plies.
+message LinkedSelectionRule {
+    base.ResourcePath resource_path = 1;
+    enum_types.BooleanOperationType operation_type = 2;
+    bool template_rule = 3;
+    double parameter_1 = 4;
+    double parameter_2 = 5;
+}

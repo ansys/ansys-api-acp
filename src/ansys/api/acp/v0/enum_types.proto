@@ -33,3 +33,12 @@ enum PlyType {
     UNDEFINED = 6;
     ADHESIVE = 7;
 }
+
+// Defines the type of linked selection rules.
+// This is used in Boolean Selection Rules, and in the selection rules
+// for Modeling Plies.
+enum BooleanOperationType {
+    INTERSECT = 0;
+    ADD = 1;
+    REMOVE = 2;
+}
