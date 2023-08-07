@@ -1,0 +1,44 @@
+syntax = "proto3";
+package ansys.api.acp.v0.tube_selection_rule;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+message Properties {
+    enum_types.StatusType status = 1;
+    base.ResourcePath edge_set = 2;
+    double outer_radius = 3;
+    double inner_radius = 4;
+    bool include_rule_type = 5;
+    bool extend_endings = 6;
+    bool symmetrical_extension = 7;
+    array_types.DoubleArray head = 8;
+    double head_extension = 9;
+    double tail_extension = 10;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
