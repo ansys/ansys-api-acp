@@ -16,10 +16,7 @@ message ObjectInfo {
     Properties properties = 2;
 }
 
-message ListReply {
-    repeated ObjectInfo objects = 1;
-}
-
+message ListReply { repeated ObjectInfo objects = 1; }
 
 service ObjectService {
     // Object is generated on update and read-only =>
