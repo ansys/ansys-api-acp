@@ -13,7 +13,7 @@ message Properties {
     repeated base.ResourcePath rosettes = 5;
     enum_types.RosetteSelectionMethod rosette_selection_method = 6;
     // TODO: tabular values
-    // TODO: selection rules
+    repeated base.ResourcePath selection_rules = 7;
     // TODO: draping
 }
 
