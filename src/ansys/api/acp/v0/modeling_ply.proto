@@ -13,7 +13,10 @@ message Properties {
     int64 number_of_layers = 5;
     bool active = 6;
     int64 global_ply_nr = 7;
+    // TODO: draping
     repeated linked_selection_rule.LinkedSelectionRule selection_rules = 8;
+    // TODO: variable thickness
+    // TODO: taper edges
 }
 
 message ObjectInfo {
