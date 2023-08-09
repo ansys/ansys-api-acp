@@ -3,6 +3,7 @@ package ansys.api.acp.v0.modeling_ply;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/linked_selection_rule.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
@@ -12,6 +13,10 @@ message Properties {
     int64 number_of_layers = 5;
     bool active = 6;
     int64 global_ply_nr = 7;
+    // TODO: draping
+    repeated linked_selection_rule.LinkedSelectionRule selection_rules = 8;
+    // TODO: variable thickness
+    // TODO: taper edges
 }
 
 message ObjectInfo {
