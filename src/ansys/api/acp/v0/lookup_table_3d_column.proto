@@ -1,0 +1,47 @@
+syntax = "proto3";
+package ansys.api.acp.v0.lookup_table_3d_column;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/unit_system.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+enum ValueType {
+    // The 'LOCATION' value type is not '0' (unlike in the backend enum)
+    // because otherwise the 'Create' method cannot be used with a default
+    // protobuf message (since the location column is protected, and always
+    // exists exactly once per lookup table).
+    SCALAR = 0;
+    DIRECTION = 1;
+    LOCATION = 2;
+}
+
+message Properties {
+    ValueType value_type = 1;
+    unit_system.DimensionType dimension_type = 2;
+    array_types.DoubleArray data = 3;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
