@@ -12,3 +12,13 @@ enum UnitSystemType {
     BFT = 6;
     BIN = 7;
 }
+
+enum DimensionType {
+    DIMENSIONLESS = 0;
+    LENGTH = 1;
+    MASS = 2;
+    FORCE = 3;
+    TIME = 4;
+    TEMPERATURE = 5;
+    CURRENCY = 6;
+}
