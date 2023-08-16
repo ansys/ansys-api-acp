@@ -19,7 +19,7 @@ message Properties {
     base.ResourcePath material = 9;
     // todo: drop-off and cut-off material links (resource path).
 
-    //read only properties
+    // read only properties
     double area_weight = 10;
 }
 

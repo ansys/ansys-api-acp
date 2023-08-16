@@ -6,21 +6,22 @@ import "ansys/api/acp/v0/enum_types.proto";
 import "ansys/api/acp/v0/ply_material.proto";
 
 // Note: material can be of type Fabric or Stackup
-message SubLaminateMaterialWithAngle {
+message Lamina {
     base.ResourcePath material = 1;
     double angle = 2;
 }
 
-// Note: draping and solid model properties are defined by the fabric and stackup
+// Note: draping and solid model properties are defined by the fabric and
+// stackup
 message Properties {
     // general properties
     enum_types.StatusType status = 1;
     ply_material.SymmetryType symmetry = 2;
     // topdown=True: the first fabric in the list is placed first in the mold
     bool topdown = 3;
-    repeated SubLaminateMaterialWithAngle materials = 4;
+    repeated Lamina materials = 4;
 
-    //read only properties
+    // read only properties
     double area_price = 5;
     double thickness = 6;
     double area_weight = 7;
