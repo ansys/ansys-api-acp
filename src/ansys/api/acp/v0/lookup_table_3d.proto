@@ -1,0 +1,45 @@
+syntax = "proto3";
+package ansys.api.acp.v0.lookup_table_3d;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+// TODO: merge with 'algorithm' string used in the material properties?
+enum InterpolationAlgorithm {
+    WEIGHTED_NEAREST_NEIGHBOR = 0;
+    NEAREST_NEIGHBOR = 1;
+    LINEAR_TRIANGULATION = 2;
+}
+
+message Properties {
+    enum_types.StatusType status = 1;
+    InterpolationAlgorithm interpolation_algorithm = 2;
+    bool use_default_search_radius = 3;
+    double search_radius = 4;
+    int64 num_min_neighbors = 5;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
