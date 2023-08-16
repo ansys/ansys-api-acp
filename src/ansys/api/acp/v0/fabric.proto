@@ -17,7 +17,10 @@ message Properties {
     ply_material.DrapingMaterialType draping_material_model = 7;
     double draping_ud_coefficient = 8;
     base.ResourcePath material = 9;
-    // todo: drop-off and cut-off material links (resource path)
+    // todo: drop-off and cut-off material links (resource path).
+
+    //read only properties
+    double area_weight = 10;
 }
 
 message ObjectInfo {
