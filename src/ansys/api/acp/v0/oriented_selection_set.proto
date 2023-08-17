@@ -4,6 +4,7 @@ package ansys.api.acp.v0.oriented_selection_set;
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 import "ansys/api/acp/v0/array_types.proto";
+import "ansys/api/acp/v0/ply_material.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
@@ -14,7 +15,15 @@ message Properties {
     enum_types.RosetteSelectionMethod rosette_selection_method = 6;
     // TODO: tabular values
     repeated base.ResourcePath selection_rules = 7;
-    // TODO: draping
+
+    // draping-related properties
+    bool draping = 8;
+    array_types.DoubleArray draping_seed_point = 9;
+    bool auto_draping_direction = 10;
+    array_types.DoubleArray draping_direction = 11;
+    double draping_mesh_size = 12;
+    ply_material.DrapingMaterialType draping_material_model = 13;
+    double draping_ud_coefficient = 14;
 }
 
 message ObjectInfo {
