@@ -1,6 +1,14 @@
 syntax = "proto3";
 package ansys.api.acp.v0.ply_material;
 
+// defines how draping is computed (none, using the draping algorithm,
+// or using tabular values)
+enum DrapingType {
+    NO_DRAPING = 0;
+    INTERNAL_DRAPING = 1;
+    TABULAR_VALUES = 2;
+}
+
 // defines the draping model (algorithm)
 enum DrapingMaterialType {
     WOVEN = 0;

@@ -3,6 +3,8 @@ package ansys.api.acp.v0.modeling_ply;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+import "ansys/api/acp/v0/ply_material.proto";
 import "ansys/api/acp/v0/linked_selection_rule.proto";
 
 message Properties {
@@ -13,8 +15,18 @@ message Properties {
     int64 number_of_layers = 5;
     bool active = 6;
     int64 global_ply_nr = 7;
-    // TODO: draping
-    repeated linked_selection_rule.LinkedSelectionRule selection_rules = 8;
+
+    // draping-related properties
+    ply_material.DrapingType draping = 8;
+    array_types.DoubleArray draping_seed_point = 9;
+    bool auto_draping_direction = 10;
+    array_types.DoubleArray draping_direction = 11;
+    double draping_mesh_size = 12;
+    bool draping_thickness_correction = 13;
+    base.ResourcePath draping_angle_1_field = 14;
+    base.ResourcePath draping_angle_2_field = 15;
+
+    repeated linked_selection_rule.LinkedSelectionRule selection_rules = 16;
     // TODO: variable thickness
     // TODO: taper edges
 }
