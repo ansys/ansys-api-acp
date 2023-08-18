@@ -1,0 +1,52 @@
+syntax = "proto3";
+package ansys.api.acp.v0.sensor;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+enum SensorType {
+    SENSOR_BY_AREA = 0;
+    SENSOR_BY_MATERIAL = 1;
+    SENSOR_BY_PLIES = 2;
+    SENSOR_BY_SOLID_MODEL = 3;
+}
+
+message Properties {
+    enum_types.StatusType status = 1;
+    bool locked = 2;
+    SensorType sensor_type = 3;
+    bool active = 4;
+    repeated base.ResourcePath entities = 5;
+    optional double covered_area = 6;
+    optional double modeling_ply_area = 7;
+    optional double production_ply_area = 8;
+    optional double price = 9;
+    optional double weight = 10;
+    optional array_types.DoubleArray center_of_gravity = 11;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
