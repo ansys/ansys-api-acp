@@ -1,0 +1,45 @@
+syntax = "proto3";
+package ansys.api.acp.v0.variable_offset_selection_rule;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+message Properties {
+    enum_types.StatusType status = 1;
+    base.ResourcePath edge_set = 2;
+    base.ResourcePath offsets = 3;
+    base.ResourcePath angles = 4;
+    bool include_rule_type = 5;
+    bool use_offset_correction = 6;
+    base.ResourcePath element_set = 7;
+    bool inherit_from_lookup_table = 8;
+    array_types.DoubleArray radius_origin = 9;
+    array_types.DoubleArray radius_direction = 10;
+    bool distance_along_edge = 11;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
