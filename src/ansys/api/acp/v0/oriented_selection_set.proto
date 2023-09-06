@@ -21,9 +21,10 @@ message Properties {
     array_types.DoubleArray draping_seed_point = 9;
     bool auto_draping_direction = 10;
     array_types.DoubleArray draping_direction = 11;
-    double draping_mesh_size = 12;
-    ply_material.DrapingMaterialType draping_material_model = 13;
-    double draping_ud_coefficient = 14;
+    bool use_default_draping_mesh_size = 12;
+    double draping_mesh_size = 13;
+    ply_material.DrapingMaterialType draping_material_model = 14;
+    double draping_ud_coefficient = 15;
 }
 
 message ObjectInfo {
