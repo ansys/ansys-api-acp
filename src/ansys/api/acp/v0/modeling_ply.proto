@@ -21,12 +21,13 @@ message Properties {
     array_types.DoubleArray draping_seed_point = 9;
     bool auto_draping_direction = 10;
     array_types.DoubleArray draping_direction = 11;
-    double draping_mesh_size = 12;
-    bool draping_thickness_correction = 13;
-    base.ResourcePath draping_angle_1_field = 14;
-    base.ResourcePath draping_angle_2_field = 15;
+    bool use_default_draping_mesh_size = 12;
+    double draping_mesh_size = 13;
+    bool draping_thickness_correction = 14;
+    base.ResourcePath draping_angle_1_field = 15;
+    base.ResourcePath draping_angle_2_field = 16;
 
-    repeated linked_selection_rule.LinkedSelectionRule selection_rules = 16;
+    repeated linked_selection_rule.LinkedSelectionRule selection_rules = 17;
     // TODO: variable thickness
     // TODO: taper edges
 }
