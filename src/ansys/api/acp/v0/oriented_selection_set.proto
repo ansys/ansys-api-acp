@@ -25,6 +25,7 @@ message Properties {
     double draping_mesh_size = 13;
     ply_material.DrapingMaterialType draping_material_model = 14;
     double draping_ud_coefficient = 15;
+    double rotation_angle = 16;
 }
 
 message ObjectInfo {
