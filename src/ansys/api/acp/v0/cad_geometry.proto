@@ -1,0 +1,54 @@
+syntax = "proto3";
+package ansys.api.acp.v0.cad_geometry;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+message Properties {
+    enum_types.StatusType status = 1;
+    bool locked = 2;
+    string external_path = 3;
+    double scale_factor = 4;
+    bool use_default_precision = 5;
+    double precision = 6;
+    bool use_default_offset = 7;
+    double offset = 8;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+message RefreshRequest { base.ResourcePath resource_path = 1; }
+
+message TriangleMeshData {
+    array_types.DoubleArray node_coordinates = 1;
+    array_types.IntArray element_nodes = 2;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Refresh the CAD Geometry from the source file
+    rpc Refresh(RefreshRequest) returns (base.Empty);
+
+    rpc GetMesh(base.GetRequest) returns (TriangleMeshData);
+}
