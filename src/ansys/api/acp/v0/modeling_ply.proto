@@ -7,6 +7,23 @@ import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/ply_material.proto";
 import "ansys/api/acp/v0/linked_selection_rule.proto";
 
+enum ThicknessType {
+    NOMINAL = 0;
+    FROM_GEOMETRY = 1;
+    FROM_TABLE = 2;
+}
+
+enum ThicknessFieldType {
+    ABSOLUTE_VALUES = 0;
+    RELATIVE_SCALING_FACTOR = 1;
+}
+
+message TaperEdge {
+    base.ResourcePath edge_set = 1;
+    double angle = 2;
+    double offset = 3;
+}
+
 message Properties {
     enum_types.StatusType status = 1;
     repeated base.ResourcePath oriented_selection_sets = 2;
@@ -28,8 +45,15 @@ message Properties {
     base.ResourcePath draping_angle_2_field = 16;
 
     repeated linked_selection_rule.LinkedSelectionRule selection_rules = 17;
-    // TODO: variable thickness
-    // TODO: taper edges
+
+    // variable thickness
+    ThicknessType thickness_type = 18;
+    base.ResourcePath thickness_geometry = 19;
+    base.ResourcePath thickness_field = 20;
+    ThicknessFieldType thickness_field_type = 21;
+
+    // taper edges
+    repeated TaperEdge taper_edges = 22;
 }
 
 message ObjectInfo {

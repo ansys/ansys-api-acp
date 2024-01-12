@@ -1,0 +1,51 @@
+syntax = "proto3";
+package ansys.api.acp.v0.cutoff_selection_rule;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+enum CutoffRuleType {
+    GEOMETRY = 0;
+    TAPER = 1;
+}
+
+enum PlyCutoffType {
+    PRODUCTION_PLY_CUTOFF = 0;
+    ANALYSIS_PLY_CUTOFF = 1;
+}
+
+message Properties {
+    enum_types.StatusType status = 1;
+    CutoffRuleType cutoff_rule_type = 2;
+    base.ResourcePath cutoff_geometry = 3;
+    base.ResourcePath taper_edge_set = 4;
+    double offset = 5;
+    double angle = 6;
+    PlyCutoffType ply_cutoff_type = 7;
+    bool ply_tapering = 8;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+package ansys.api.acp.v0.geometrical_selection_rule;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+enum GeometricalRuleType {
+    GEOMETRY = 0;
+    ELEMENT_SETS = 1;
+}
+
+message Properties {
+    enum_types.StatusType status = 1;
+    GeometricalRuleType geometrical_rule_type = 2;
+    base.ResourcePath geometry = 3;
+    repeated base.ResourcePath element_sets = 4;
+    bool include_rule_type = 5;
+    bool use_default_tolerances = 6;
+    double in_plane_capture_tolerance = 7;
+    double negative_capture_tolerance = 8;
+    double positive_capture_tolerance = 9;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+}
