@@ -19,6 +19,7 @@ message Properties {
     double minimum_analysis_ply_thickness = 6;
     // read only property
     unit_system.UnitSystemType unit_system = 7;
+    double average_element_size = 8;
 }
 
 message ObjectInfo {
