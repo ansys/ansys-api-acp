@@ -70,10 +70,11 @@ message Properties {
     bool delete_bad_elements = 11;
     double warping_limit = 12;
     double minimum_volume = 13;
+    bool skip_elements_without_plies = 14;
     // drop off properties
-    DropOffSettings drop_off_settings = 14;
+    DropOffSettings drop_off_settings = 15;
     // export properties
-    ExportSettings export_settings = 15;
+    ExportSettings export_settings = 16;
 }
 
 message ObjectInfo {
