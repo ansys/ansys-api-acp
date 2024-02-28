@@ -1,8 +1,8 @@
 """Installation file for the ansys-api-acp package"""
 
 import os
-import setuptools
 
+import setuptools
 from ansys.tools.protoc_helper import CMDCLASS_OVERRIDE
 
 # Get the long description from the README file
