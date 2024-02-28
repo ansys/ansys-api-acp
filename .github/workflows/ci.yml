@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  MAIN_PYTHON_VERSION: '3.9'
+  MAIN_PYTHON_VERSION: '3.10'
   PACKAGE_NAME: 'ansys-api-acp'
 
 jobs:
@@ -23,38 +23,40 @@ jobs:
         with:
           library-name: ${{ env.PACKAGE_NAME }}
 
-  check-version:
-    name: "Check version is bumped"
+  pre-commit:
+    name: "Pre-commit checks"
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     steps:
-      - name: "Check out repository"
-        uses: actions/checkout@v2
-      - name: "Check version is changed"
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+      - name: "Install pre-commit"
         run: |
-          git fetch origin $BASE_BRANCH
+          python -m pip install --upgrade pip
+          pip install -r requirements_dev.txt
+      - name: "Run pre-commit"
+        run: |
+          pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
 
-          VERSION_FILE=$(find src/ -name VERSION)
-
-          NUM_CHARS=$(git diff --ignore-all-space origin/$BASE_BRANCH -- $VERSION_FILE | wc -c)
-
-          if [ $NUM_CHARS -eq 0 ]; then
-            echo "Version is not bumped.  Please update the version in $VERSION_FILE"
-            exit 1
-          fi
-        env:
-          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-
-
-  release-pypi-private:
-    name: "Release to private PyPI"
+  release:
+    name: "Release package"
     runs-on: ubuntu-latest
     needs: [build-library]
-    if: github.event_name == 'push' && github.ref_type == 'branch' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     steps:
-      - name: "Release to the private PyPI repository"
-        uses: ansys/actions/release-pypi-private@v4
+      - name: "Release to the public PyPI repository"
+        uses: ansys/actions/release-pypi-public@v5
         with:
           library-name:  ${{ env.PACKAGE_NAME }}
           twine-username: "__token__"
-          twine-token: ${{ secrets.PYANSYS_PYPI_PRIVATE_PAT }}
+          twine-token: ${{ secrets.PYPI_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          files: |
+            ./**/*.whl
+            ./**/*.tar.gz
