@@ -42,6 +42,7 @@ message Properties {
     array_types.DoubleArray origin = 4;
     array_types.DoubleArray dir1 = 5;
     array_types.DoubleArray dir2 = 6;
+    base.ResourcePath edge_set = 7;
 }
 
 message ObjectInfo {
