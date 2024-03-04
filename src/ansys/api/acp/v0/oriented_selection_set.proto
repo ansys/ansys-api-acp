@@ -35,7 +35,7 @@ message Properties {
     array_types.DoubleArray orientation_direction = 4;
     repeated base.ResourcePath rosettes = 5;
     enum_types.RosetteSelectionMethod rosette_selection_method = 6;
-    // TODO: tabular values
+
     repeated base.ResourcePath selection_rules = 7;
 
     // draping-related properties
@@ -48,6 +48,7 @@ message Properties {
     ply_material.DrapingMaterialType draping_material_model = 14;
     double draping_ud_coefficient = 15;
     double rotation_angle = 16;
+    base.ResourcePath reference_direction_field = 17;
 }
 
 message ObjectInfo {
