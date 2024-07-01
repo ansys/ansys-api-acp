@@ -286,5 +286,7 @@ service ObjectService {
 
     rpc Create(CreateRequest) returns (ObjectInfo);
 
+    // Custom methods
+
     rpc SaveToFile(SaveToFileRequest) returns (base.Empty);
 }
