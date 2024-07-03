@@ -59,15 +59,15 @@ message DropOffSettings {
 
 message ExportSettings {
     bool use_default_section_index = 1;
-    int32 section_index = 2;
+    int64 section_index = 2;
     bool use_default_coordinate_system_index = 3;
-    int32 coordinate_system_index = 4;
+    int64 coordinate_system_index = 4;
     bool use_default_material_index = 5;
-    int32 material_index = 6;
+    int64 material_index = 6;
     bool use_default_node_index = 7;
-    int32 node_index = 8;
+    int64 node_index = 8;
     bool use_default_element_index = 9;
-    int32 element_index = 10;
+    int64 element_index = 10;
     bool use_solsh_elements = 11;
     bool write_degenerated_elements = 12;
     bool drop_hanging_nodes = 13;
