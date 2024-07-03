@@ -64,3 +64,16 @@ enum BooleanOperationType {
     ADD = 1;
     REMOVE = 2;
 }
+
+enum OffsetType {
+    NO_OFFSET = 0;
+    BOTTOM_OFFSET = 1;
+    MIDDLE_OFFSET = 2;
+    TOP_OFFSET = 3;
+}
+
+enum ArrowType {
+    NO_ARROW = 0;
+    HALF_ARROW = 1;
+    STANDARD_ARROW = 2;
+}

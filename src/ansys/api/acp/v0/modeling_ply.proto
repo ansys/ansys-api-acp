@@ -28,6 +28,7 @@ import "ansys/api/acp/v0/enum_types.proto";
 import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/ply_material.proto";
 import "ansys/api/acp/v0/linked_selection_rule.proto";
+import "ansys/api/acp/v0/ply_geometry_export.proto";
 
 enum ThicknessType {
     NOMINAL = 0;
@@ -101,4 +102,9 @@ service ObjectService {
     rpc Delete(base.DeleteRequest) returns (base.Empty);
 
     rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Custom methods
+
+    rpc ExportGeometries(ply_geometry_export.ExportGeometriesRequest)
+        returns (base.Empty);
 }
