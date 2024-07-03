@@ -61,6 +61,8 @@ enum Format {
     ANSYS_DAT = 2;
     ABAQUS_INP = 3;
     NASTRAN_BDF = 4;
+    CAD_STEP = 5;
+    CAD_IGES = 6;
 }
 
 message LoadFromFEFileRequest {
