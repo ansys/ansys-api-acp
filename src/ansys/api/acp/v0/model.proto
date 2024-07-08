@@ -101,6 +101,13 @@ message SaveShellCompositeDefinitionsRequest {
     string path = 2;
 }
 
+message ReplaceMeshRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    Format format = 3;
+    unit_system.UnitSystemType unit_system = 4;
+}
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
@@ -122,4 +129,6 @@ service ObjectService {
 
     rpc SaveShellCompositeDefinitions(SaveShellCompositeDefinitionsRequest)
         returns (base.Empty);
+
+    rpc ReplaceMesh(ReplaceMeshRequest) returns (base.Empty);
 }
