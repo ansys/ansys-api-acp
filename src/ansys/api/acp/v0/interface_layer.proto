@@ -21,17 +21,17 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.cad_component;
+package ansys.api.acp.v0.interface_layer;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
-    string path = 2;
-    // The following properties are not yet supported:
-    // bool is_free = 3;
-    // int64 map_index = 4;
+    int64 global_ply_nr = 2;
+    bool active = 3;
+    repeated base.ResourcePath oriented_selection_sets = 4;
+    repeated base.ResourcePath open_area_sets = 5;
 }
 
 message ObjectInfo {
@@ -41,10 +41,20 @@ message ObjectInfo {
 
 message ListReply { repeated ObjectInfo objects = 1; }
 
-service ObjectService {
-    // Object is read-only => only list and get endpoints.
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
 
+service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
     rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
 }

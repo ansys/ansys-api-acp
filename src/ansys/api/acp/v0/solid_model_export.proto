@@ -21,30 +21,21 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.cad_component;
+package ansys.api.acp.v0.solid_model_export;
 
 import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/model.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
-message Properties {
-    enum_types.StatusType status = 1;
+message ExportSkinRequest {
+    base.ResourcePath resource_path = 1;
     string path = 2;
-    // The following properties are not yet supported:
-    // bool is_free = 3;
-    // int64 map_index = 4;
+    enum_types.FileFormat format = 3;
+    bool midside_nodes = 4;
 }
 
-message ObjectInfo {
-    base.BasicInfo info = 1;
-    Properties properties = 2;
-}
-
-message ListReply { repeated ObjectInfo objects = 1; }
-
-service ObjectService {
-    // Object is read-only => only list and get endpoints.
-
-    rpc List(base.ListRequest) returns (ListReply);
-
-    rpc Get(base.GetRequest) returns (ObjectInfo);
+message ExportToFileRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    enum_types.FileFormat format = 3;
 }

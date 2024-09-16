@@ -21,33 +21,71 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.fabric;
+package ansys.api.acp.v0.layup_mapping_object;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
-import "ansys/api/acp/v0/ply_material.proto";
-import "ansys/api/acp/v0/cut_off_material.proto";
-import "ansys/api/acp/v0/drop_off_material.proto";
+
+enum ElementTechnology {
+    LAYERED_ELEMENT = 0;
+    REINFORCING = 1;
+}
+
+enum ReinforcingBehavior {
+    TENSION_AND_COMPRESSION = 0;
+    TENSION_ONLY = 1;
+    COMPRESSION_ONLY = 2;
+}
+
+enum BaseElementMaterialHandlingType {
+    RETAIN = 0;
+    REMOVE = 1;
+}
+
+enum StressStateType {
+    UNIAXIAL_STRESS_STATE = 0;
+    PLANE_STRESS_STATE = 1;
+    PLANE_STRESS_STATE_WITH_TRANSVERSE_SHEAR_STIFFNESS = 2;
+    PLANE_STRESS_STATE_WITH_TRANSVERSE_SHEAR_AND_BENDING_STIFFNESS = 3;
+}
 
 message Properties {
+    // GENERAL PROPERTIES
     enum_types.StatusType status = 1;
-    base.ResourcePath material = 9;
-    double thickness = 2;
-    double area_price = 3;
-    bool ignore_for_postprocessing = 4;
+    bool active = 2;
+    ElementTechnology element_technology = 3;
 
-    // SOLID MODEL OPTIONS
-    drop_off_material.MaterialHandlingType drop_off_material_handling = 5;
-    base.ResourcePath drop_off_material = 11;
-    cut_off_material.MaterialHandlingType cut_off_material_handling = 6;
-    base.ResourcePath cut_off_material = 12;
+    // SOURCE SCOPE PROPERTIES
+    repeated base.ResourcePath shell_element_sets = 4;
+    bool use_imported_plies = 5;
+    bool select_all_plies = 6;
+    repeated base.ResourcePath sequences = 7;
 
-    // DRAPING OPTIONS
-    ply_material.DrapingMaterialType draping_material_model = 7;
-    double draping_ud_coefficient = 8;
+    // TARGET SCOPE PROPERTIES
+    bool entire_solid_mesh = 8;
+    repeated base.ResourcePath solid_element_sets = 9;
 
-    // READ-ONLY PROPERTIES
-    double area_weight = 10;
+    // LAYERED ELEMENT PROPERTIES
+    // void handling
+    bool scale_ply_thicknesses = 10;
+    base.ResourcePath void_material = 11;
+    double minimum_void_material_thickness = 12;
+    // filler
+    bool delete_lost_elements = 13;
+    base.ResourcePath filler_material = 14;
+    repeated base.ResourcePath rosettes = 15;
+    enum_types.RosetteSelectionMethod rosette_selection_method = 16;
+
+    // REINFORCING PARAMETERS
+    // section control and behavior
+    ReinforcingBehavior reinforcing_behavior = 17;
+    BaseElementMaterialHandlingType base_element_material_handling = 18;
+    StressStateType stress_state = 19;
+    // base material
+    base.ResourcePath base_material = 20;
+    repeated base.ResourcePath base_element_rosettes = 21;
+    enum_types.RosetteSelectionMethod base_element_rosette_selection_method =
+        22;
 }
 
 message ObjectInfo {

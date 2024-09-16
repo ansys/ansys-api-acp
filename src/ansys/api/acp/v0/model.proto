@@ -25,6 +25,7 @@ package ansys.api.acp.v0.model;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/unit_system.proto";
+import "ansys/api/acp/v0/enum_types.proto";
 
 // Default CRUD messages
 
@@ -38,9 +39,10 @@ message Properties {
     // bool use_default_section_tolerances = 3;
     double angle_tolerance = 4;
     double relative_thickness_tolerance = 5;
-    double minimum_analysis_ply_thickness = 6;
-    // read only property
+    optional double minimum_analysis_ply_thickness =
+        6; // when not set, keep the previous value (potentially unit-converted)
     unit_system.UnitSystemType unit_system = 7;
+    // read-only
     double average_element_size = 8;
 }
 
@@ -55,17 +57,9 @@ message LoadFromFileRequest { string path = 1; }
 
 // Special Model messages
 
-enum Format {
-    ANSYS_H5 = 0;
-    ANSYS_CDB = 1;
-    ANSYS_DAT = 2;
-    ABAQUS_INP = 3;
-    NASTRAN_BDF = 4;
-}
-
 message LoadFromFEFileRequest {
     string path = 1;
-    Format format = 2;
+    enum_types.FileFormat format = 2;
     enum IgnorableEntity {
         MESH = 0;
         ELEMENT_SETS = 1;
@@ -99,6 +93,80 @@ message SaveShellCompositeDefinitionsRequest {
     string path = 2;
 }
 
+message ExportHDF5CompositeCAERequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+
+    // GENERAL PROPERTIES
+    bool remove_midside_nodes = 3;
+    bool layup_representation_3d = 4;
+    enum_types.OffsetType offset_type = 5;
+    bool ascii_encoding = 6;
+
+    // SCOPE PROPERTIES
+    bool all_elements = 7;
+    repeated base.ResourcePath element_sets =
+        8; // can be Oriented Selection Set or Element Set
+    bool all_plies = 9;
+    repeated base.ResourcePath plies =
+        10; // can be Modeling Group or Modeling Ply
+};
+
+enum ImportMode {
+    APPEND = 0;
+    OVERWRITE = 1;
+}
+
+enum ProjectionMode {
+    SHELL = 0;
+    SOLID = 1;
+}
+
+message ShellMappingProperties {
+    // MAPPING SCOPE
+    bool all_elements = 1;
+    repeated base.ResourcePath element_sets = 2;
+
+    // PLY AREA MAPPING
+    double relative_thickness_tolerance = 3;
+    double relative_in_plane_tolerance = 4;
+    double angle_tolerance = 5;
+    double small_hole_threshold = 6;
+}
+
+message SolidMappingProperties { enum_types.OffsetType offset_type = 1; }
+
+message CoordinateTransformation {
+    // all angles are in degrees
+    double rotation_angle_x = 1;
+    double rotation_angle_y = 2;
+    double rotation_angle_z = 3;
+    double translation_x = 4;
+    double translation_y = 5;
+    double translation_z = 6;
+}
+
+message ImportHDF5CompositeCAERequest {
+    // GENERAL PROPERTIES
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    ImportMode import_mode = 3;
+    ProjectionMode projection_mode = 4;
+
+    // PLY ANGLES
+    double minimum_angle_tolerance = 5;
+    bool recompute_reference_directions = 6;
+
+    // MAPPIG PROPERTIES
+    oneof mapping_properties {
+        ShellMappingProperties shell_mapping_properties = 7;
+        SolidMappingProperties solid_mapping_properties = 8;
+    }
+
+    // COORDINATE TRANSFORMATION
+    CoordinateTransformation coordinate_transformation = 9;
+}
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
@@ -120,4 +188,12 @@ service ObjectService {
 
     rpc SaveShellCompositeDefinitions(SaveShellCompositeDefinitionsRequest)
         returns (base.Empty);
+
+    rpc ExportHDF5CompositeCAE(ExportHDF5CompositeCAERequest)
+        returns (base.Empty);
+
+    rpc ImportHDF5CompositeCAE(ImportHDF5CompositeCAERequest)
+        returns (base.Empty);
+
+    // TODO: reload mesh
 }

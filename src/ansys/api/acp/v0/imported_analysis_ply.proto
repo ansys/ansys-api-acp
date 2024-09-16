@@ -21,17 +21,19 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.cad_component;
+package ansys.api.acp.v0.imported_analysis_ply;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 message Properties {
+    // Object is generated on update and all properties are read only.
     enum_types.StatusType status = 1;
-    string path = 2;
-    // The following properties are not yet supported:
-    // bool is_free = 3;
-    // int64 map_index = 4;
+    base.ResourcePath material = 2;
+    double thickness = 3;
+    // angle in degree
+    double angle = 4;
+    bool active_in_post_mode = 5;
 }
 
 message ObjectInfo {
@@ -42,9 +44,8 @@ message ObjectInfo {
 message ListReply { repeated ObjectInfo objects = 1; }
 
 service ObjectService {
-    // Object is read-only => only list and get endpoints.
-
+    // Object is generated on update and read-only =>
+    // only list and get endpoints.
     rpc List(base.ListRequest) returns (ListReply);
-
     rpc Get(base.GetRequest) returns (ObjectInfo);
 }
