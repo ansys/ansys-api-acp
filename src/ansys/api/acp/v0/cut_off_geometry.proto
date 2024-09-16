@@ -1,15 +1,20 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.cut_off_geometry;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+
+enum OrientationType {
+    UP = 0;
+    DOWN = 1;
+}
 
 message Properties {
     enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    bool active = 2;
+    base.ResourcePath cad_geometry = 3;
+    OrientationType orientation = 4;
+    double relative_merge_tolerance = 5;
 }
 
 message ObjectInfo {

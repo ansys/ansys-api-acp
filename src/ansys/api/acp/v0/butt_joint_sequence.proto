@@ -1,15 +1,20 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.butt_joint_sequence;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+
+message PrimaryPly {
+    base.ResourcePath sequence = 1;
+    int64 level = 2;
+}
 
 message Properties {
     enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    bool active = 2;
+    int64 global_ply_nr = 3;
+    repeated PrimaryPly primary_plies = 4;
+    repeated base.ResourcePath secondary_plies = 5;
 }
 
 message ObjectInfo {

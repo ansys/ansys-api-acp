@@ -1,0 +1,76 @@
+syntax = "proto3";
+package ansys.api.acp.v0.imported_modeling_ply;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/ply_material.proto";
+import "ansys/api/acp/v0/modeling_ply.proto";
+
+enum MeshImportType {
+    FROM_H5_COMPOSITE_CAE = 0;
+    FROM_GEOMETRY = 1;
+};
+
+message Properties {
+    enum_types.StatusType status = 1;
+    bool active = 2;
+
+    // IMPORTED MESH PROPERTIES
+    enum_types.OffsetType offset_type = 3;
+    // The 'FROM_H5_COMPOSITE_CAE' mesh import type can only be created
+    // via the Composite CAE H5 import. Manually created imported plies are
+    // always of type 'FROM_GEOMETRY'.
+    MeshImportType mesh_import_type = 4;
+    base.ResourcePath mesh_geometry = 5;
+
+    // REFERENCE DIRECTION
+    enum_types.RosetteSelectionMethod rosette_selection_method = 6;
+    repeated base.ResourcePath rosettes = 7;
+    base.ResourcePath reference_direction_field = 8;
+    double rotation_angle = 9;
+
+    // MATERIAL PROPERTIES
+    // Only fabrics are supported as ply material
+    base.ResourcePath ply_material = 10;
+    double ply_angle = 11;
+
+    // DRAPING-RELATED PROPERTIES
+    // The 'INTERNAL_DRAPING' draping type is not supported for imported plies
+    ply_material.DrapingType draping = 12;
+    base.ResourcePath draping_angle_1_field = 13;
+    base.ResourcePath draping_angle_2_field = 14;
+
+    // VARIABLE THICKNESS
+    // The 'FROM_GEOMETRY' thickness type is not supported for imported plies
+    modeling_ply.ThicknessType thickness_type = 15;
+    base.ResourcePath thickness_field = 16;
+    // The thickness_field_type is discarded when the thickness_field is not set
+    modeling_ply.ThicknessFieldType thickness_field_type = 17;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Custom methods
+}

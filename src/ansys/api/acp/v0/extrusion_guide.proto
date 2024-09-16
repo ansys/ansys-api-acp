@@ -1,15 +1,27 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.extrusion_guide;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+enum ExtrusionGuideType {
+    BY_GEOMETRY = 0;
+    BY_DIRECTION = 1;
+}
 
 message Properties {
     enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    bool active = 2;
+    base.ResourcePath edge_set = 3;
+    ExtrusionGuideType extrusion_guide_type = 4;
+    base.ResourcePath cad_geometry = 5;
+    array_types.DoubleArray direction = 6;
+
+    // MESH MORPHING PARAMETERS
+    double radius = 7;
+    double depth = 8;
+    bool use_curvature_correction = 9;
 }
 
 message ObjectInfo {

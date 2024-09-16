@@ -1,0 +1,79 @@
+syntax = "proto3";
+package ansys.api.acp.v0.imported_solid_model;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/solid_model.proto";
+import "ansys/api/acp/v0/unit_system.proto";
+import "ansys/api/acp/v0/solid_model_export.proto";
+
+message Properties {
+    // GENERAL PROPERTIES
+    enum_types.StatusType status = 1; // read only
+    bool locked = 2;                  // read only
+    bool active = 3;
+
+    // SOURCE PROPERTIES
+    enum_types.FileFormat format = 4;
+    unit_system.UnitSystemType unit_system = 5;
+    string external_path = 6;
+
+    // ELEMENT QUALITY PROPERTIES
+    bool delete_bad_elements = 7;
+    double warping_limit = 8;
+    double minimum_volume = 9;
+
+    // CUT-OFF PROPERTIES
+    base.ResourcePath cut_off_material = 10;
+
+    // EXPORT PROPERTIES
+    // The following properties are not supported (ignored) for imported solid
+    // models:
+    // - write_degenerated_elements
+    // - transfer_all_sets
+    // - transferred_element_sets
+    // - transferred_edge_sets
+    solid_model.ExportSettings export_settings = 16;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+message RefreshRequest { base.ResourcePath resource_path = 1; }
+
+message ImportInitialMeshRequest { base.ResourcePath resource_path = 1; }
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Custom methods
+
+    rpc ExportToFile(solid_model_export.ExportToFileRequest)
+        returns (base.Empty);
+
+    rpc ExportSkin(solid_model_export.ExportSkinRequest) returns (base.Empty);
+
+    rpc Refresh(RefreshRequest) returns (base.Empty);
+
+    rpc ImportInitialMesh(ImportInitialMeshRequest) returns (base.Empty);
+
+    // TODO: mapping statistics
+}

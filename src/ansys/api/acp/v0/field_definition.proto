@@ -1,15 +1,17 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.field_definition;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
     bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    bool active = 3;
+    string field_variable_name = 4;
+    repeated base.ResourcePath scope_entities = 5;
+    base.ResourcePath scalar_field = 6;
+    bool full_mapping = 7;
 }
 
 message ObjectInfo {

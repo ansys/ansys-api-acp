@@ -1,16 +1,9 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.imported_modeling_group;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
-import "ansys/api/acp/v0/enum_types.proto";
 
-message Properties {
-    enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
-}
+message Properties {}
 
 message ObjectInfo {
     base.BasicInfo info = 1;

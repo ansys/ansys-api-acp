@@ -1,10 +1,11 @@
 syntax = "proto3";
-package ansys.api.acp.v0.analysis_ply;
+package ansys.api.acp.v0.imported_analysis_ply;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 message Properties {
+    // Object is generated on update and all properties are read only.
     enum_types.StatusType status = 1;
     base.ResourcePath material = 2;
     double thickness = 3;

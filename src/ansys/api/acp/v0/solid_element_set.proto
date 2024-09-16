@@ -1,15 +1,14 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.solid_element_set;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
     bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    array_types.IntArray element_labels = 3;
 }
 
 message ObjectInfo {
@@ -19,20 +18,9 @@ message ObjectInfo {
 
 message ListReply { repeated ObjectInfo objects = 1; }
 
-message CreateRequest {
-    base.CollectionPath collection_path = 1;
-    string name = 2;
-    Properties properties = 3;
-}
-
 service ObjectService {
+    // Object is generated on update and read-only =>
+    // only list and get endpoints.
     rpc List(base.ListRequest) returns (ListReply);
-
     rpc Get(base.GetRequest) returns (ObjectInfo);
-
-    rpc Put(ObjectInfo) returns (ObjectInfo);
-
-    rpc Delete(base.DeleteRequest) returns (base.Empty);
-
-    rpc Create(CreateRequest) returns (ObjectInfo);
 }

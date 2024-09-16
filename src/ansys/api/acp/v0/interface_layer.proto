@@ -1,15 +1,15 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.interface_layer;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 message Properties {
     enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    int64 global_ply_nr = 2;
+    bool active = 3;
+    repeated base.ResourcePath oriented_selection_sets = 4;
+    repeated base.ResourcePath open_area_sets = 5;
 }
 
 message ObjectInfo {

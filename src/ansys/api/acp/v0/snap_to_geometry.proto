@@ -1,15 +1,21 @@
 syntax = "proto3";
-package ansys.api.acp.v0.element_set;
+package ansys.api.acp.v0.snap_to_geometry;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/array_types.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+
+enum OrientationType {
+    UNDEFINED = 0;
+    BOTTOM = 1;
+    TOP = 2;
+}
 
 message Properties {
     enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool middle_offset = 3;
-    array_types.IntArray element_labels = 4;
+    bool active = 2;
+    OrientationType orientation_type = 3;
+    base.ResourcePath cad_geometry = 4;
+    base.ResourcePath oriented_selection_set = 5;
 }
 
 message ObjectInfo {
