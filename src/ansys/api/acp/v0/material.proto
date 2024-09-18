@@ -275,6 +275,12 @@ message SaveToFileRequest {
     Format format = 3;
 }
 
+message ImportMaterialFilesRequest {
+    base.CollectionPath collection_path = 1;
+    string matml_path = 2;
+    string material_apdl_path = 3;
+}
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
@@ -287,6 +293,12 @@ service ObjectService {
     rpc Create(CreateRequest) returns (ObjectInfo);
 
     // Custom methods
+
+    // Load material data from a MatML file, and (optionally) define the
+    // corresponding APDL file.
+    // This method deletes any existing materials in the model, since the
+    // MatML file is expected to contain the complete set of materials.
+    rpc ImportMaterialFiles(ImportMaterialFilesRequest) returns (base.Empty);
 
     rpc SaveToFile(SaveToFileRequest) returns (base.Empty);
 }
