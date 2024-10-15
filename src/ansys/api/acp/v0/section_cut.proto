@@ -1,0 +1,126 @@
+// Copyright (C) 2022 - 2024 ANSYS, Inc. and/or its affiliates.
+// SPDX-License-Identifier: MIT
+//
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+syntax = "proto3";
+package ansys.api.acp.v0.section_cut;
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
+
+enum ExtrusionType {
+    WIRE_FRAME = 0;
+    SURFACE_NORMAL = 1;
+    SURFACE_SWEEP_BASED = 2;
+}
+
+enum SectionCutType {
+    MODELING_PLY_WISE = 0;
+    PRODUCTION_PLY_WISE = 1;
+    ANALYSIS_PLY_WISE = 2;
+}
+
+enum IntersectionType {
+    NORMAL_TO_SURFACE = 0;
+    IN_PLANE = 1;
+}
+
+message Properties {
+    // general properties
+    enum_types.StatusType status = 1;
+    bool locked = 2; // read-only
+    bool active = 3;
+
+    // position properties
+    array_types.DoubleArray origin = 4;
+    array_types.DoubleArray normal = 5;
+    array_types.DoubleArray in_plane_reference_direction1 = 6;
+
+    // scoping properties
+    bool scope_entire_model = 7;
+    repeated base.ResourcePath scope_element_sets = 8;
+
+    // extrusion properties
+    ExtrusionType extrusion_type = 9;
+    double scale_factor = 10;
+    double core_scale_factor = 11;
+    SectionCutType section_cut_type = 12;
+
+    // wireframe properties
+    IntersectionType intersection_type = 13;
+
+    // surface properties - general
+    bool use_default_tolerance = 14;
+    double tolerance = 15;
+    // surface properties - sweep-based
+    bool use_default_interpolation_settings = 16;
+    double search_radius = 17;
+    int64 number_of_interpolation_points = 18;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
+
+message ExportToBECASRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    bool export_strength_limits = 3;
+}
+
+enum CDBExportType {
+    MESH_ONLY = 0;
+    SOLID_MODEL = 1;
+}
+
+message ExportToCDBRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    CDBExportType export_type = 3;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Custom methods
+
+    rpc ExportToBECAS(ExportToBECASRequest) returns (base.Empty);
+
+    rpc ExportToCDB(ExportToCDBRequest) returns (base.Empty);
+}
