@@ -73,6 +73,7 @@ message Properties {
     ThicknessType thickness_type = 18;
     base.ResourcePath thickness_geometry = 19;
     base.ResourcePath thickness_field = 20;
+    // The thickness_field_type is discarded when the thickness_field is not set
     ThicknessFieldType thickness_field_type = 21;
 
     // taper edges

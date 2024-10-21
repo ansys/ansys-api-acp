@@ -71,14 +71,11 @@ enum ElementalDataType {
     // is currently disabled. ELEMENT_PLY_OFFSET = 21;
 }
 
-// message ElementScoping {
-//     enum ElementType {
-//         ALL = 0;
-//         SHELL = 1;
-//         SOLID = 2;
-//     }
-//     ElementType element_type = 1;
-// }
+enum ElementScopingType {
+    ALL = 0;
+    SHELL = 1;
+    SOLID = 2;
+}
 
 message GetElementalDataRequest {
     // The resource path determines both the entity whose data is being queried,
@@ -90,7 +87,7 @@ message GetElementalDataRequest {
     // ply will be returned.
     base.ResourcePath resource_path = 1;
     repeated ElementalDataType data_types = 2;
-    // ElementScoping scoping = 3;
+    ElementScopingType element_scoping = 3; // optionally scope by element type
 }
 
 message ElementalData {
@@ -106,6 +103,12 @@ enum NodalDataType {
 message GetNodalDataRequest {
     base.ResourcePath resource_path = 1;
     repeated NodalDataType data_types = 2;
+    ElementScopingType element_scoping = 3; // optionally scope by element type
+}
+
+message GetMeshDataRequest {
+    base.ResourcePath resource_path = 1;
+    ElementScopingType element_scoping = 2;
 }
 
 message NodalData {
@@ -115,7 +118,7 @@ message NodalData {
 }
 
 service MeshQueryService {
-    rpc GetMeshData(base.GetRequest) returns (MeshData);
+    rpc GetMeshData(GetMeshDataRequest) returns (MeshData);
     rpc GetElementalData(GetElementalDataRequest) returns (ElementalData);
     rpc GetNodalData(GetNodalDataRequest) returns (NodalData);
 }

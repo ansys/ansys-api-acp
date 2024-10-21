@@ -77,3 +77,14 @@ enum ArrowType {
     HALF_ARROW = 1;
     STANDARD_ARROW = 2;
 }
+
+enum FileFormat {
+    ANSYS_H5 = 0;
+    ANSYS_CDB = 1;
+    ANSYS_DAT = 2;
+    ABAQUS_INP = 3;  // currently unused
+    NASTRAN_BDF = 4; // currently unused
+    STEP = 5;
+    IGES = 6;
+    STL = 7;
+}

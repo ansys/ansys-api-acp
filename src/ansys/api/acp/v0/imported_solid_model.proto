@@ -21,83 +21,41 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.solid_model;
+package ansys.api.acp.v0.imported_solid_model;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/solid_model.proto";
+import "ansys/api/acp/v0/unit_system.proto";
 import "ansys/api/acp/v0/solid_model_export.proto";
 
-enum ExtrusionMethodType {
-    ANALYSIS_PLY_WISE = 0;
-    MONOLITHIC = 1;
-    PRODUCTION_PLY_WISE = 2;
-    MODELING_PLY_WISE = 3;
-    SPECIFY_THICKNESS = 4;
-    MATERIAL_WISE = 5;
-    USER_DEFINED = 6;
-    SANDWICH_WISE = 7;
-}
-
-enum DropOffType {
-    INSIDE_PLY = 0;
-    OUTSIDE_PLY = 1;
-}
-
-enum OffsetDirectionType {
-    SHELL_NORMAL = 0;
-    SURFACE_NORMAL = 1;
-    // DISTORTION_CONTROLLED -> not supported at the moment
-}
-
-message DropOffSettings {
-    DropOffType drop_off_type = 1;
-    bool disable_dropoffs_on_bottom = 2;
-    repeated base.ResourcePath dropoff_disabled_on_bottom_sets = 3;
-    bool disable_dropoffs_on_top = 4;
-    repeated base.ResourcePath dropoff_disabled_on_top_sets = 5;
-    bool connect_butt_joined_plies = 6;
-}
-
-message ExportSettings {
-    bool use_default_section_index = 1;
-    int64 section_index = 2;
-    bool use_default_coordinate_system_index = 3;
-    int64 coordinate_system_index = 4;
-    bool use_default_material_index = 5;
-    int64 material_index = 6;
-    bool use_default_node_index = 7;
-    int64 node_index = 8;
-    bool use_default_element_index = 9;
-    int64 element_index = 10;
-    bool use_solsh_elements = 11;
-    bool write_degenerated_elements = 12;
-    bool drop_hanging_nodes = 13;
-    bool use_solid_model_prefix = 14;
-    bool transfer_all_sets = 15;
-    repeated base.ResourcePath transferred_element_sets = 16;
-    repeated base.ResourcePath transferred_edge_sets = 17;
-}
-
 message Properties {
-    // general properties
+    // GENERAL PROPERTIES
     enum_types.StatusType status = 1; // read only
     bool locked = 2;                  // read only
     bool active = 3;
-    repeated base.ResourcePath element_sets = 4;
-    ExtrusionMethodType extrusion_method = 5;
-    double max_element_thickness = 6;
-    repeated base.ResourcePath ply_group_pointers = 7;
-    OffsetDirectionType offset_direction = 8;
-    base.ResourcePath drop_off_material = 9;
+
+    // SOURCE PROPERTIES
+    enum_types.FileFormat format = 4;
+    unit_system.UnitSystemType unit_system = 5;
+    string external_path = 6;
+
+    // ELEMENT QUALITY PROPERTIES
+    bool delete_bad_elements = 7;
+    double warping_limit = 8;
+    double minimum_volume = 9;
+
+    // CUT-OFF PROPERTIES
     base.ResourcePath cut_off_material = 10;
-    bool delete_bad_elements = 11;
-    double warping_limit = 12;
-    double minimum_volume = 13;
-    bool skip_elements_without_plies = 14;
-    // drop off properties
-    DropOffSettings drop_off_settings = 15;
-    // export properties
-    ExportSettings export_settings = 16;
+
+    // EXPORT PROPERTIES
+    // The following properties are not supported (ignored) for imported solid
+    // models:
+    // - write_degenerated_elements
+    // - transfer_all_sets
+    // - transferred_element_sets
+    // - transferred_edge_sets
+    solid_model.ExportSettings export_settings = 16;
 }
 
 message ObjectInfo {
@@ -112,6 +70,10 @@ message CreateRequest {
     string name = 2;
     Properties properties = 3;
 }
+
+message RefreshRequest { base.ResourcePath resource_path = 1; }
+
+message ImportInitialMeshRequest { base.ResourcePath resource_path = 1; }
 
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
@@ -130,4 +92,10 @@ service ObjectService {
         returns (base.Empty);
 
     rpc ExportSkin(solid_model_export.ExportSkinRequest) returns (base.Empty);
+
+    rpc Refresh(RefreshRequest) returns (base.Empty);
+
+    rpc ImportInitialMesh(ImportInitialMeshRequest) returns (base.Empty);
+
+    // TODO: mapping statistics
 }

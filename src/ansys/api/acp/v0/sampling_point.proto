@@ -21,17 +21,25 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.cad_component;
+package ansys.api.acp.v0.sampling_point;
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/array_types.proto";
 
 message Properties {
+    // general properties
     enum_types.StatusType status = 1;
-    string path = 2;
-    // The following properties are not yet supported:
-    // bool is_free = 3;
-    // int64 map_index = 4;
+    bool locked = 2; // read-only
+    array_types.DoubleArray point = 3;
+    array_types.DoubleArray direction = 4;
+
+    // CLT properties
+    bool use_default_reference_direction = 5;
+    base.ResourcePath rosette = 6;
+    array_types.DoubleArray reference_direction = 7; // read-only
+    bool offset_is_middle = 8;
+    bool consider_coupling_effect = 9;
 }
 
 message ObjectInfo {
@@ -41,10 +49,26 @@ message ObjectInfo {
 
 message ListReply { repeated ObjectInfo objects = 1; }
 
-service ObjectService {
-    // Object is read-only => only list and get endpoints.
+message CreateRequest {
+    base.CollectionPath collection_path = 1;
+    string name = 2;
+    Properties properties = 3;
+}
 
+service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
     rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Custom methods
+
+    // TODO: Export to ESACOMP XML. This is implemented in the ACP GUI, and
+    // thus cannot (currently) be exposed via the gRPC API.
+    // Querying the sampling point data is also missing
 }

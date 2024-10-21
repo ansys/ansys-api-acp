@@ -26,14 +26,8 @@ package ansys.api.acp.v0.ply_geometry_export;
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
-enum ExportFormat {
-    STEP = 0;
-    IGES = 1;
-    STL = 2;
-}
-
 message ExportOptions {
-    ExportFormat format = 1;
+    enum_types.FileFormat format = 1;
     enum_types.OffsetType offset_type = 2;
     bool include_boundary = 3;
     bool include_surface = 4;
