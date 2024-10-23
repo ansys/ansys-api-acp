@@ -24,7 +24,6 @@ syntax = "proto3";
 package ansys.api.acp.v0.solid_model_export;
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/model.proto";
 import "ansys/api/acp/v0/enum_types.proto";
 
 message ExportSkinRequest {
