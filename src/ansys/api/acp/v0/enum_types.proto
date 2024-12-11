@@ -22,6 +22,7 @@
 
 syntax = "proto3";
 package ansys.api.acp.v0.enum_types;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/enum_types";
 
 // the initializers are different in the backend but here it has to be
 // zero-based
