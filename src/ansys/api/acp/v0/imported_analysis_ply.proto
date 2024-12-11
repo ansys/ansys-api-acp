@@ -22,6 +22,7 @@
 
 syntax = "proto3";
 package ansys.api.acp.v0.imported_analysis_ply;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/imported_analysis_ply";
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";

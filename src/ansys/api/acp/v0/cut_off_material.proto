@@ -22,6 +22,7 @@
 
 syntax = "proto3";
 package ansys.api.acp.v0.cut_off_material;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/cut_off_material";
 
 // defines the source of the cut-off material
 enum MaterialHandlingType {

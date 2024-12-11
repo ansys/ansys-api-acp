@@ -22,6 +22,7 @@
 
 syntax = "proto3";
 package ansys.api.acp.v0.mesh_query;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/mesh_query";
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/array_types.proto";

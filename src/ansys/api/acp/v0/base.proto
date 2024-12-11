@@ -22,6 +22,7 @@
 
 syntax = "proto3";
 package ansys.api.acp.v0.base;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/base";
 
 message Empty {}
 

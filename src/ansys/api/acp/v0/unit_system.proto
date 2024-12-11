@@ -22,6 +22,7 @@
 
 syntax = "proto3";
 package ansys.api.acp.v0.unit_system;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/unit_system";
 
 // only the unit system type is exposed at the moment.
 enum UnitSystemType {
