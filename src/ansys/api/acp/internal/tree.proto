@@ -22,7 +22,12 @@
 
 syntax = "proto3";
 package ansys.api.acp.internal.tree;
-option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/internal/tree";
+
+// The package name 'internal' has special meaning in Go:
+// other modules cannot import it.
+// To avoid this, we use 'unstable' instead of 'internal'.
+// This only affects the generated Go code.
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/unstable/tree";
 
 // This is an internal proto definition and should not be
 // used in any public interface.
