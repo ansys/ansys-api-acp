@@ -41,7 +41,8 @@ if __name__ == "__main__":
         },
         entry_points={
             "ansys.tools.protoc_helper.proto_provider": [
-                "ansys.api.acp.v0=ansys.api.acp.v0"
+                "ansys.api.acp.v0=ansys.api.acp.v0",
+                "ansys.api.acp.internal=ansys.api.acp.internal",
             ],
         },
         cmdclass=CMDCLASS_OVERRIDE,
