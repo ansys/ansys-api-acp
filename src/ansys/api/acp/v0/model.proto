@@ -43,6 +43,8 @@ message Properties {
     optional double minimum_analysis_ply_thickness =
         6; // when not set, keep the previous value (potentially unit-converted)
     unit_system.UnitSystemType unit_system = 7;
+    optional bool force_disable_result_extrapolation = 9;
+
     // read-only
     double average_element_size = 8;
 }
