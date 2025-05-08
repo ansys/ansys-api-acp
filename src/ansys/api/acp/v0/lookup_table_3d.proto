@@ -40,6 +40,8 @@ message Properties {
     bool use_default_search_radius = 3;
     double search_radius = 4;
     int64 num_min_neighbors = 5;
+    optional bool use_global_coordinate_system = 6;
+    base.ResourcePath rosette = 7;
 }
 
 message ObjectInfo {
