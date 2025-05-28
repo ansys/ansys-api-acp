@@ -34,6 +34,8 @@ package ansys.api.acp.internal.event;
 // This only affects the generated Go code.
 option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/unstable/event";
 
+import "google/api/annotations.proto";
+
 import "ansys/api/acp/v0/base.proto";
 
 enum EventType {
@@ -56,4 +58,14 @@ message Event {
     };
 }
 
-service EventService { rpc EventStream(v0.base.Empty) returns (stream Event); }
+service EventService {
+    rpc EventStream(v0.base.Empty) returns (stream Event) {
+        // The event stream is explicitly annotated as a GET request
+        // to simplify its usage from the JS 'fetch' API.
+        // Streaming responses are otherwise not well-supported by the
+        // grpc-gateway library and generated JS/TS code.
+        option (google.api.http) = {
+            get : "/internal/event_stream"
+        };
+    }
+}
