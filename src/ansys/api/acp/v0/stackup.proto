@@ -53,8 +53,8 @@ message Properties {
     base.ResourcePath cut_off_material = 11;
 
     // read only properties
-    double thickness = 12;
-    double area_weight = 13;
+    optional double thickness = 12;
+    optional double area_weight = 13;
 }
 
 message ObjectInfo {
