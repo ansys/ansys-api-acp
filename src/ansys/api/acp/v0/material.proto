@@ -139,6 +139,28 @@ message PuckConstantsPropertySet {
     string mat_type = 4;
 }
 
+message IsotropicThermalExpansionCoefficientsPropertySet {
+    message Data {
+        double reference_temperature = 1;
+        double alpha = 2;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
+message OrthotropicThermalExpansionCoefficientsPropertySet {
+    message Data {
+        double reference_temperature = 1;
+        double alphaX = 2;
+        double alphaY = 3;
+        double alphaZ = 4;
+    }
+    repeated Data values = 1;
+    repeated FieldVariable field_variables = 2;
+    InterpolationOptions interpolation_options = 3;
+}
+
 message WovenCharacterizationPropertySet {
     message Data {
         double orientation_1 = 1;
@@ -202,14 +224,18 @@ message Properties {
      *   have orthotropic and isotropic variants, the appropriate one is
      *   provided.
      * - In write APIs (Put, Create) all property sets _except engineering
-     *   constants_ can be specified independently of the ply type. They
-     *   will be stored in the back-end, but may be ignored by further
+     *   constants and thermal expansion coefficients_ can be specified
+     *   independently of the ply type. They will be stored in the back-end,
+     *   but may be ignored by further
      *   processing if they do not match the ply type.
-     *   For engineering constants, if an isotropic ply type is given, the
-     *   constants need to be isotropic. Two forms are accepted:
-     *   - specifying 'engineering_constants_isotropic'
-     *   - specifying 'engineering_constants_orthotropic' where the
-     *     values are consistent with an isotropic material.
+     *   For engineering constants and thermal expansion coefficients, if an
+     *   isotropic ply type is given, the constants need to be isotropic.
+     *   Two forms are accepted:
+     *   - specifying 'engineering_constants_isotropic' /
+     *'thermal_expansion_coefficients_isotropic'
+     *   - specifying 'engineering_constants_orthotropic' /
+     *'thermal_expansion_coefficients_orthotropic' where the values are
+     *consistent with an isotropic material.
      **/
     message PropertySets {
         DensityPropertySet density = 1;
@@ -228,10 +254,12 @@ message Properties {
             OrthotropicStrainLimitsPropertySet strain_limits_orthotropic = 7;
         }
         PuckConstantsPropertySet puck_constants = 8;
-
-        // intentionally left out for now:
-        // thermal_expansion_coefficients = 9;
-
+        oneof thermal_expansion_coefficients {
+            IsotropicThermalExpansionCoefficientsPropertySet
+                thermal_expansion_coefficients_isotropic = 9;
+            OrthotropicThermalExpansionCoefficientsPropertySet
+                thermal_expansion_coefficients_orthotropic = 18;
+        }
         WovenCharacterizationPropertySet woven_characterization = 10;
         PuckConstantsPropertySet woven_puck_constants_1 = 11;
         PuckConstantsPropertySet woven_puck_constants_2 = 12;
