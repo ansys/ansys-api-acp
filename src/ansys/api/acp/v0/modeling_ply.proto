@@ -94,6 +94,13 @@ message CreateRequest {
     Properties properties = 3;
 }
 
+message SplitByProductionMaterialRequest { base.BasicInfo info = 1; }
+
+message SplitByProductionMaterialReply {
+    bool has_split = 1;
+    repeated base.BasicInfo created_plies = 2;
+}
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
@@ -109,4 +116,7 @@ service ObjectService {
 
     rpc ExportGeometries(ply_geometry_export.ExportGeometriesRequest)
         returns (base.Empty);
+
+    rpc SplitByProductionMaterial(SplitByProductionMaterialRequest)
+        returns (SplitByProductionMaterialReply);
 }
