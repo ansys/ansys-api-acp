@@ -1,0 +1,32 @@
+// NOTE:
+// This is an internal proto definition and should not be
+// used in any public interface.
+// Stability and backwards compatibility is not guaranteed.
+
+syntax = "proto3";
+package ansys.api.acp.internal.log;
+
+// The package name 'internal' has special meaning in Go:
+// other modules cannot import it.
+// To avoid this, we use 'unstable' instead of 'internal'.
+// This only affects the generated Go code.
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/unstable/log";
+
+import "ansys/api/acp/v0/base.proto";
+
+// Log levels used by ACP. The TRACE and FATAL levels also defined by the
+// default boost log setup are unused and thus omitted here.
+enum LogLevel {
+    DEBUG = 0;
+    INFO = 1;
+    WARNING = 2;
+    ERROR = 3;
+}
+
+message LogEntry {
+    LogLevel level = 1;
+    string message = 2;
+    int64 timestamp = 3; // Unix timestamp in milliseconds since epoch
+}
+
+service LogService { rpc LogStream(v0.base.Empty) returns (stream LogEntry); }
