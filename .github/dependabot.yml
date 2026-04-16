@@ -8,7 +8,7 @@ updates:
     cooldown:
       default-days: 7
     exclude-paths:
-      - "setup.py" # only update the requirements_dev.txt file
+      - "pyproject.toml" # build dependencies in pyproject.toml use open intervals
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
