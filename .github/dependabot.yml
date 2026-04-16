@@ -6,6 +6,8 @@ updates:
       interval: "weekly"
     versioning-strategy: "increase"
     cooldown:
+      include:
+        - '*'
       default-days: 7
     exclude-paths:
       - "pyproject.toml" # build dependencies in pyproject.toml use open intervals
@@ -14,4 +16,6 @@ updates:
     schedule:
       interval: "weekly"
     cooldown:
+      include:
+        - '*'
       default-days: 7
