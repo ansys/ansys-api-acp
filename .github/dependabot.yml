@@ -5,7 +5,13 @@ updates:
     schedule:
       interval: "weekly"
     versioning-strategy: "increase"
+    cooldown:
+      default-days: 7
+    exclude-paths:
+      - "setup.py" # only update the requirements_dev.txt file
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
