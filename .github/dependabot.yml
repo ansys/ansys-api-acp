@@ -5,7 +5,23 @@ updates:
     schedule:
       interval: "weekly"
     versioning-strategy: "increase"
+    groups:
+      pip-dependencies:
+        patterns:
+          - "*" # Update all packages together
+    cooldown:
+      include:
+        - '*'
+      default-days: 7
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions-dependencies:
+        patterns:
+          - "*" # Update all packages together
+    cooldown:
+      include:
+        - '*'
+      default-days: 7
