@@ -1,4 +1,4 @@
-// Copyright (C) 2022 - 2026 ANSYS, Inc. and/or its affiliates.
+// Copyright (C) 2022 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 // SPDX-License-Identifier: MIT
 //
 //
@@ -34,6 +34,7 @@ enum UnitSystemType {
     MPA = 5;
     BFT = 6;
     BIN = 7;
+    MMKMS = 8;
 }
 
 enum DimensionType {

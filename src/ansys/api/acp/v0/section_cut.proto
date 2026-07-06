@@ -1,4 +1,4 @@
-// Copyright (C) 2022 - 2026 ANSYS, Inc. and/or its affiliates.
+// Copyright (C) 2022 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 // SPDX-License-Identifier: MIT
 //
 //
@@ -70,12 +70,13 @@ message Properties {
     IntersectionType intersection_type = 13;
 
     // surface properties - general
-    bool use_default_tolerance = 14;
-    double tolerance = 15;
+    bool use_default_minimum_segment_length = 14;
+    double minimum_segment_length = 15;
     // surface properties - sweep-based
     bool use_default_interpolation_settings = 16;
     double search_radius = 17;
     int64 number_of_interpolation_points = 18;
+    double minimum_thickness_to_length_ratio = 19;
 }
 
 message ObjectInfo {
@@ -106,6 +107,7 @@ message ExportToCDBRequest {
     base.ResourcePath resource_path = 1;
     string path = 2;
     CDBExportType export_type = 3;
+    optional double extrusion_depth = 4;
 }
 
 service ObjectService {

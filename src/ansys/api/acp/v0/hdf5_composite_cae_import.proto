@@ -21,34 +21,69 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.fabric;
-option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/fabric";
+package ansys.api.acp.v0.hdf5_composite_cae_import;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/hdf5_composite_cae_import";
 
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/enum_types.proto";
-import "ansys/api/acp/v0/ply_material.proto";
-import "ansys/api/acp/v0/cut_off_material.proto";
-import "ansys/api/acp/v0/drop_off_material.proto";
+import "ansys/api/acp/v0/import_object.proto";
+
+// Default CRUD messages
+
+enum ImportMode {
+    APPEND = 0;
+    OVERWRITE = 1;
+}
+
+enum ProjectionMode {
+    SHELL = 0;
+    SOLID = 1;
+}
+
+message ShellMappingProperties {
+    // MAPPING SCOPE
+    optional bool all_elements = 1;
+    repeated base.ResourcePath element_sets = 2;
+
+    // TOLERANCES
+    optional double relative_thickness_tolerance = 3;
+    optional double relative_in_plane_tolerance = 4;
+    optional double angle_tolerance = 5;
+    optional double small_hole_threshold = 6;
+}
+
+message SolidMappingProperties {
+    optional enum_types.OffsetType offset_type = 1;
+}
+
+message CoordinateTransformation {
+    // all angles are in degrees
+    double rotation_angle_x = 1;
+    double rotation_angle_y = 2;
+    double rotation_angle_z = 3;
+    double translation_x = 4;
+    double translation_y = 5;
+    double translation_z = 6;
+}
 
 message Properties {
-    enum_types.StatusType status = 1;
-    base.ResourcePath material = 9;
-    double thickness = 2;
-    double area_price = 3;
-    bool ignore_for_postprocessing = 4;
-
-    // SOLID MODEL OPTIONS
-    drop_off_material.MaterialHandlingType drop_off_material_handling = 5;
-    base.ResourcePath drop_off_material = 11;
-    cut_off_material.MaterialHandlingType cut_off_material_handling = 6;
-    base.ResourcePath cut_off_material = 12;
-
-    // DRAPING OPTIONS
-    ply_material.DrapingMaterialType draping_material_model = 7;
-    double draping_ud_coefficient = 8;
-
     // READ-ONLY PROPERTIES
-    double area_weight = 10;
+    bool has_run = 1;
+
+    // GENERAL SETTINGS
+    string path = 2;
+    optional ProjectionMode projection_mode = 3;
+    optional ImportMode import_mode = 4;
+
+    // PLY ANGLES (both modes)
+    optional double minimum_angle_tolerance = 5;
+    optional bool recompute_reference_directions = 6;
+
+    // SHELL MAPPING PROPERTIES
+    ShellMappingProperties shell_mapping_properties = 7;
+
+    // SOLID MAPPING PROPERTIES
+    SolidMappingProperties solid_mapping_properties = 8;
 }
 
 message ObjectInfo {
@@ -74,4 +109,14 @@ service ObjectService {
     rpc Delete(base.DeleteRequest) returns (base.Empty);
 
     rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Special Import Object RPCs
+
+    rpc Run(import_object.RunRequest) returns (base.Empty);
+
+    rpc ListGeneratedObjects(import_object.ListGeneratedObjectsRequest)
+        returns (import_object.ListGeneratedObjectsReply);
+
+    rpc DeleteGeneratedObjects(import_object.DeleteGeneratedObjectsRequest)
+        returns (base.Empty);
 }

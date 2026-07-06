@@ -1,4 +1,4 @@
-// Copyright (C) 2022 - 2026 ANSYS, Inc. and/or its affiliates.
+// Copyright (C) 2022 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 // SPDX-License-Identifier: MIT
 //
 //
@@ -136,7 +136,8 @@ message PuckConstantsPropertySet {
     repeated Data values = 1;
     repeated FieldVariable field_variables = 2;
     InterpolationOptions interpolation_options = 3;
-    string mat_type = 4;
+    string mat_type =
+        4; // Valid values: "carbon", "glass", "material-specific".
 }
 
 message IsotropicThermalExpansionCoefficientsPropertySet {

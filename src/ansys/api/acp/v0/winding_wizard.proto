@@ -21,34 +21,35 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.fabric;
-option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/fabric";
+package ansys.api.acp.v0.winding_wizard;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/winding_wizard";
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/enum_types.proto";
-import "ansys/api/acp/v0/ply_material.proto";
-import "ansys/api/acp/v0/cut_off_material.proto";
-import "ansys/api/acp/v0/drop_off_material.proto";
+import "ansys/api/acp/v0/array_types.proto";
+import "ansys/api/acp/v0/import_object.proto";
+
+// Default CRUD messages
+
+message Layer {
+    base.ResourcePath fabric = 1;
+    optional double nominal_angle = 2;
+    optional bool has_limits = 3;
+    optional double lower_limit = 4;
+    optional double upper_limit = 5;
+    optional bool add_mirrored_ply = 6;
+}
 
 message Properties {
-    enum_types.StatusType status = 1;
-    base.ResourcePath material = 9;
-    double thickness = 2;
-    double area_price = 3;
-    bool ignore_for_postprocessing = 4;
-
-    // SOLID MODEL OPTIONS
-    drop_off_material.MaterialHandlingType drop_off_material_handling = 5;
-    base.ResourcePath drop_off_material = 11;
-    cut_off_material.MaterialHandlingType cut_off_material_handling = 6;
-    base.ResourcePath cut_off_material = 12;
-
-    // DRAPING OPTIONS
-    ply_material.DrapingMaterialType draping_material_model = 7;
-    double draping_ud_coefficient = 8;
-
     // READ-ONLY PROPERTIES
-    double area_weight = 10;
+    bool has_run = 1;
+
+    // READ-WRITE PROPERTIES
+    array_types.DoubleArray origin = 2;
+    optional double reference_radius = 3;
+    array_types.DoubleArray axial_direction = 4;
+    optional double max_angle_with_thickness_correction = 5;
+    optional int32 number_of_digits_angle = 6;
+    repeated Layer layers = 7;
 }
 
 message ObjectInfo {
@@ -74,4 +75,14 @@ service ObjectService {
     rpc Delete(base.DeleteRequest) returns (base.Empty);
 
     rpc Create(CreateRequest) returns (ObjectInfo);
+
+    // Special Import Object RPCs
+
+    rpc Run(import_object.RunRequest) returns (base.Empty);
+
+    rpc ListGeneratedObjects(import_object.ListGeneratedObjectsRequest)
+        returns (import_object.ListGeneratedObjectsReply);
+
+    rpc DeleteGeneratedObjects(import_object.DeleteGeneratedObjectsRequest)
+        returns (base.Empty);
 }
