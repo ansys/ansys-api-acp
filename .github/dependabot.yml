@@ -5,6 +5,10 @@ updates:
     schedule:
       interval: "weekly"
     versioning-strategy: "increase"
+    groups:
+      pip-dependencies:
+        patterns:
+          - "*" # Update all packages together
     cooldown:
       include:
         - '*'
@@ -15,6 +19,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions-dependencies:
+        patterns:
+          - "*" # Update all packages together
     cooldown:
       include:
         - '*'
