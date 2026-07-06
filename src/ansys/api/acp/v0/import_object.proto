@@ -21,43 +21,17 @@
 // SOFTWARE.
 
 syntax = "proto3";
-package ansys.api.acp.v0.field_definition;
-option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/field_definition";
+package ansys.api.acp.v0.import_object;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/import_object";
 
 import "ansys/api/acp/v0/base.proto";
-import "ansys/api/acp/v0/enum_types.proto";
 
-message Properties {
-    enum_types.StatusType status = 1;
-    bool locked = 2;
-    bool active = 3;
-    string field_variable_name = 4;
-    repeated base.ResourcePath scope_entities = 5;
-    base.ResourcePath scalar_field = 6;
-    bool full_mapping = 7;
+message RunRequest { base.ResourcePath resource_path = 1; }
+
+message ListGeneratedObjectsRequest { base.ResourcePath resource_path = 1; }
+
+message ListGeneratedObjectsReply {
+    repeated base.ResourcePath generated_objects = 1;
 }
 
-message ObjectInfo {
-    base.BasicInfo info = 1;
-    Properties properties = 2;
-}
-
-message ListReply { repeated ObjectInfo objects = 1; }
-
-message CreateRequest {
-    base.CollectionPath collection_path = 1;
-    string name = 2;
-    Properties properties = 3;
-}
-
-service ObjectService {
-    rpc List(base.ListRequest) returns (ListReply);
-
-    rpc Get(base.GetRequest) returns (ObjectInfo);
-
-    rpc Put(ObjectInfo) returns (ObjectInfo);
-
-    rpc Delete(base.DeleteRequest) returns (base.Empty);
-
-    rpc Create(CreateRequest) returns (ObjectInfo);
-}
+message DeleteGeneratedObjectsRequest { base.ResourcePath resource_path = 1; }

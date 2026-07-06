@@ -1,4 +1,4 @@
-// Copyright (C) 2022 - 2026 ANSYS, Inc. and/or its affiliates.
+// Copyright (C) 2022 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 // SPDX-License-Identifier: MIT
 //
 //
@@ -27,6 +27,7 @@ option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/model";
 import "ansys/api/acp/v0/base.proto";
 import "ansys/api/acp/v0/unit_system.proto";
 import "ansys/api/acp/v0/enum_types.proto";
+import "ansys/api/acp/v0/hdf5_composite_cae_import.proto";
 
 // Default CRUD messages
 
@@ -115,59 +116,28 @@ message ExportHDF5CompositeCAERequest {
         10; // can be Modeling Group or Modeling Ply
 };
 
-enum ImportMode {
-    APPEND = 0;
-    OVERWRITE = 1;
-}
-
-enum ProjectionMode {
-    SHELL = 0;
-    SOLID = 1;
-}
-
-message ShellMappingProperties {
-    // MAPPING SCOPE
-    bool all_elements = 1;
-    repeated base.ResourcePath element_sets = 2;
-
-    // PLY AREA MAPPING
-    double relative_thickness_tolerance = 3;
-    double relative_in_plane_tolerance = 4;
-    double angle_tolerance = 5;
-    double small_hole_threshold = 6;
-}
-
-message SolidMappingProperties { enum_types.OffsetType offset_type = 1; }
-
-message CoordinateTransformation {
-    // all angles are in degrees
-    double rotation_angle_x = 1;
-    double rotation_angle_y = 2;
-    double rotation_angle_z = 3;
-    double translation_x = 4;
-    double translation_y = 5;
-    double translation_z = 6;
-}
-
 message ImportHDF5CompositeCAERequest {
     // GENERAL PROPERTIES
     base.ResourcePath resource_path = 1;
     string path = 2;
-    ImportMode import_mode = 3;
-    ProjectionMode projection_mode = 4;
+    hdf5_composite_cae_import.ImportMode import_mode = 3;
+    hdf5_composite_cae_import.ProjectionMode projection_mode = 4;
 
     // PLY ANGLES
     double minimum_angle_tolerance = 5;
     bool recompute_reference_directions = 6;
 
-    // MAPPIG PROPERTIES
+    // MAPPING PROPERTIES
     oneof mapping_properties {
-        ShellMappingProperties shell_mapping_properties = 7;
-        SolidMappingProperties solid_mapping_properties = 8;
+        hdf5_composite_cae_import.ShellMappingProperties
+            shell_mapping_properties = 7;
+        hdf5_composite_cae_import.SolidMappingProperties
+            solid_mapping_properties = 8;
     }
 
     // COORDINATE TRANSFORMATION
-    CoordinateTransformation coordinate_transformation = 9;
+    hdf5_composite_cae_import.CoordinateTransformation
+        coordinate_transformation = 9;
 }
 
 service ObjectService {
@@ -195,6 +165,7 @@ service ObjectService {
     rpc ExportHDF5CompositeCAE(ExportHDF5CompositeCAERequest)
         returns (base.Empty);
 
+    // Deprecated: use hdf5_composite_cae_import.ObjectService instead
     rpc ImportHDF5CompositeCAE(ImportHDF5CompositeCAERequest)
         returns (base.Empty);
 
