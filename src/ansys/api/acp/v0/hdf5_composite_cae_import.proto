@@ -73,17 +73,19 @@ message Properties {
     // GENERAL SETTINGS
     string path = 2;
     optional ProjectionMode projection_mode = 3;
-    optional ImportMode import_mode = 4;
 
     // PLY ANGLES (both modes)
-    optional double minimum_angle_tolerance = 5;
-    optional bool recompute_reference_directions = 6;
+    optional double minimum_angle_tolerance = 4;
+    optional bool recompute_reference_directions = 5;
 
     // SHELL MAPPING PROPERTIES
-    ShellMappingProperties shell_mapping_properties = 7;
+    ShellMappingProperties shell_mapping_properties = 6;
 
     // SOLID MAPPING PROPERTIES
-    SolidMappingProperties solid_mapping_properties = 8;
+    SolidMappingProperties solid_mapping_properties = 7;
+
+    // COORDINATE TRANSFORMATION
+    CoordinateTransformation coordinate_transformation = 8;
 }
 
 message ObjectInfo {
