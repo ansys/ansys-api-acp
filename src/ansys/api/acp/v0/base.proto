@@ -37,11 +37,23 @@ message BasicInfo {
     int64 version = 4;
 }
 
+message BatchItemError {
+    ResourcePath resource_path = 1;
+    int32 error_code = 2;
+    string error_message = 3;
+}
+
 message GetRequest { ResourcePath resource_path = 1; }
+message BatchGetRequest { repeated GetRequest get_requests = 1; }
 
 message DeleteRequest {
     ResourcePath resource_path = 1;
     int64 version = 2;
+}
+message BatchDeleteRequest { repeated DeleteRequest delete_requests = 1; }
+message BatchDeleteReply {
+    repeated ResourcePath successful_replies = 1;
+    repeated BatchItemError failed_items = 2;
 }
 
 message ListRequest { CollectionPath collection_path = 1; }

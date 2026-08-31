@@ -32,12 +32,35 @@ message PrimaryPly {
     int64 level = 2;
 }
 
+enum DefinitionType {
+    // Manual mode matches the wire default for backwards compatibility: When
+    // a server or client does not support automatic butt joint detection, it
+    // will be treated as manual mode.
+    // Note that the GUI / scripting default is instead AUTOMATIC_ALL_PLY_TYPES.
+    MANUAL = 0;
+    AUTOMATIC_ALL_PLY_TYPES = 1;
+    AUTOMATIC_CORE_MATERIALS = 2;
+    AUTOMATIC_IDENTICAL_PLY_TYPE = 3;
+    AUTOMATIC_SIMILAR_PLY_TYPES = 4;
+    AUTOMATIC_ISOTROPIC_MATERIALS = 5;
+    AUTOMATIC_REINFORCED_MATERIALS = 6;
+    AUTOMATIC_IDENTICAL_MODELING_PLY_MATERIAL = 7;
+}
+
 message Properties {
     enum_types.StatusType status = 1;
     bool active = 2;
     int64 global_ply_nr = 3;
+
+    // Ply sequences if definition_type is MANUAL.
     repeated PrimaryPly primary_plies = 4;
     repeated base.ResourcePath secondary_plies = 5;
+
+    DefinitionType definition_type = 6;
+
+    // Ply sequences if definition_type is AUTOMATIC_*.
+    repeated base.ResourcePath starting_modeling_plies = 7;
+    repeated base.ResourcePath automatically_added_sequences = 8; // read-only
 }
 
 message ObjectInfo {
@@ -47,20 +70,41 @@ message ObjectInfo {
 
 message ListReply { repeated ObjectInfo objects = 1; }
 
+message BatchGetReply {
+    repeated ObjectInfo successful_replies = 1;
+    repeated base.BatchItemError failed_items = 2;
+}
+
+message BatchPutRequest { repeated ObjectInfo put_requests = 1; }
+
+message BatchPutReply {
+    repeated ObjectInfo successful_replies = 1;
+    repeated base.BatchItemError failed_items = 2;
+}
+
 message CreateRequest {
     base.CollectionPath collection_path = 1;
     string name = 2;
     Properties properties = 3;
 }
 
+message ConvertToManualDefinitionRequest { base.BasicInfo info = 1; }
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
     rpc Get(base.GetRequest) returns (ObjectInfo);
+    rpc BatchGet(base.BatchGetRequest) returns (BatchGetReply);
 
     rpc Put(ObjectInfo) returns (ObjectInfo);
+    rpc BatchPut(BatchPutRequest) returns (BatchPutReply);
 
     rpc Delete(base.DeleteRequest) returns (base.Empty);
 
+    rpc BatchDelete(base.BatchDeleteRequest) returns (base.BatchDeleteReply);
+
     rpc Create(CreateRequest) returns (ObjectInfo);
+
+    rpc ConvertToManualDefinition(ConvertToManualDefinitionRequest)
+        returns (base.Empty);
 }

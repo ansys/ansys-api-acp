@@ -42,10 +42,16 @@ message ObjectInfo {
 
 message ListReply { repeated ObjectInfo objects = 1; }
 
+message BatchGetReply {
+    repeated ObjectInfo successful_replies = 1;
+    repeated base.BatchItemError failed_items = 2;
+}
+
 service ObjectService {
     // Object is read-only => only list and get endpoints.
 
     rpc List(base.ListRequest) returns (ListReply);
 
     rpc Get(base.GetRequest) returns (ObjectInfo);
+    rpc BatchGet(base.BatchGetRequest) returns (BatchGetReply);
 }
