@@ -22,6 +22,7 @@ jobs:
         uses: ansys/actions/build-library@v11.0.3
         with:
           library-name: ${{ env.PACKAGE_NAME }}
+          use-uv: false
 
   pre-commit:
     name: "Pre-commit checks"
