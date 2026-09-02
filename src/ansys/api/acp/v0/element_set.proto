@@ -42,6 +42,18 @@ message ObjectInfo {
 
 message ListReply { repeated ObjectInfo objects = 1; }
 
+message BatchGetReply {
+    repeated ObjectInfo successful_replies = 1;
+    repeated base.BatchItemError failed_items = 2;
+}
+
+message BatchPutRequest { repeated ObjectInfo put_requests = 1; }
+
+message BatchPutReply {
+    repeated ObjectInfo successful_replies = 1;
+    repeated base.BatchItemError failed_items = 2;
+}
+
 message CreateRequest {
     base.CollectionPath collection_path = 1;
     string name = 2;
@@ -52,10 +64,14 @@ service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
     rpc Get(base.GetRequest) returns (ObjectInfo);
+    rpc BatchGet(base.BatchGetRequest) returns (BatchGetReply);
 
     rpc Put(ObjectInfo) returns (ObjectInfo);
+    rpc BatchPut(BatchPutRequest) returns (BatchPutReply);
 
     rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc BatchDelete(base.BatchDeleteRequest) returns (base.BatchDeleteReply);
 
     rpc Create(CreateRequest) returns (ObjectInfo);
 }
