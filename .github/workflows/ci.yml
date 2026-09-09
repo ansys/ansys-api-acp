@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build library source and wheel artifacts"
-        uses: ansys/actions/build-library@v11.0.3
+        uses: ansys/actions/build-library@v11.0.6
         with:
           library-name: ${{ env.PACKAGE_NAME }}
 
@@ -47,14 +47,14 @@ jobs:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     steps:
       - name: "Release to the public PyPI repository"
-        uses: ansys/actions/release-pypi-public@v11.0.3
+        uses: ansys/actions/release-pypi-public@v11.0.6
         with:
           library-name:  ${{ env.PACKAGE_NAME }}
           twine-username: "__token__"
           twine-token: ${{ secrets.PYPI_TOKEN }}
 
       - name: Release
-        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           generate_release_notes: true
           files: |
