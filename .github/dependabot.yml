@@ -26,4 +26,6 @@ updates:
     cooldown:
       include:
         - '*'
+      exclude:
+        - 'ansys/actions'
       default-days: 7
