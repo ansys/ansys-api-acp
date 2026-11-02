@@ -68,13 +68,9 @@ message CreateRequest {
     Properties properties = 3;
 }
 
-message GetLayupRequest {
-    base.ResourcePath resource_path = 1;
-}
+message GetLayupRequest { base.ResourcePath resource_path = 1; }
 
-message BatchGetLayupRequest {
-    repeated GetLayupRequest get_requests = 1;
-}
+message BatchGetLayupRequest { repeated GetLayupRequest get_requests = 1; }
 
 message PlyLayupEntry {
     // Zero-based position in the sampling direction within this ply-level list.
@@ -89,7 +85,8 @@ message PlyLayupEntry {
     double thickness = 6;
     // Nominal thickness before draping or geometry-based adjustments.
     double design_thickness = 8;
-    // Offset of the ply's bottom surface in the sampling direction, in model length units.
+    // Offset of the ply's bottom surface in the sampling direction, in model
+    // length units.
     double offset = 9;
 }
 
@@ -99,7 +96,7 @@ message LayupResult {
     double offset = 1;
 
     // Each list follows the sampling direction. If aligned is false, entries
-    // are in reverse ANSYS bottom-to-top order.In 
+    // are in reverse ANSYS bottom-to-top order.In
     repeated PlyLayupEntry modeling_plies = 2;
     repeated PlyLayupEntry production_plies = 3;
     repeated PlyLayupEntry analysis_plies = 4;
@@ -110,7 +107,8 @@ message LayupResult {
     // Whether the sampling direction is aligned with the element normal.
     bool aligned = 7;
 
-    // Todo (future) add results from the CLT analysis (e.g., laminate properties, ABD matrix)
+    // Todo (future) add results from the CLT analysis (e.g., laminate
+    // properties, ABD matrix)
 }
 
 message BatchLayupResult {
