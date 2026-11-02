@@ -68,6 +68,54 @@ message CreateRequest {
     Properties properties = 3;
 }
 
+message GetLayupRequest { base.ResourcePath resource_path = 1; }
+
+message BatchGetLayupRequest { repeated GetLayupRequest get_requests = 1; }
+
+message PlyLayupEntry {
+    // Zero-based position in the sampling direction within this ply-level list.
+    int64 order = 1;
+
+    base.ResourcePath ply = 2;
+    base.ResourcePath material = 3;
+
+    // Angle is in degrees. Thicknesses use the model's length units.
+    double angle_degrees = 5;
+    // Effective thickness after draping or geometry-based adjustments.
+    double thickness = 6;
+    // Nominal thickness before draping or geometry-based adjustments.
+    double design_thickness = 8;
+    // Offset of the ply's bottom surface in the sampling direction, in model
+    // length units.
+    double offset = 9;
+}
+
+message LayupResult {
+    // Distance between the reference surface and the bottom face of the
+    // laminate, in model length units.
+    double offset = 1;
+
+    // Each list follows the sampling direction. If aligned is false, entries
+    // are in reverse ANSYS bottom-to-top order.In
+    repeated PlyLayupEntry modeling_plies = 2;
+    repeated PlyLayupEntry production_plies = 3;
+    repeated PlyLayupEntry analysis_plies = 4;
+
+    // Label of the mesh element associated with the sampling point.
+    int64 element_label = 6;
+
+    // Whether the sampling direction is aligned with the element normal.
+    bool aligned = 7;
+
+    // Todo (future) add results from the CLT analysis (e.g., laminate
+    // properties, ABD matrix)
+}
+
+message BatchLayupResult {
+    repeated LayupResult successful_replies = 1;
+    repeated base.BatchItemError failed_items = 2;
+}
+
 service ObjectService {
     rpc List(base.ListRequest) returns (ListReply);
 
@@ -83,9 +131,11 @@ service ObjectService {
 
     rpc Create(CreateRequest) returns (ObjectInfo);
 
+    rpc GetLayup(GetLayupRequest) returns (LayupResult);
+    rpc BatchGetLayup(BatchGetLayupRequest) returns (BatchLayupResult);
+
     // Custom methods
 
     // TODO: Export to ESACOMP XML. This is implemented in the ACP GUI, and
     // thus cannot (currently) be exposed via the gRPC API.
-    // Querying the sampling point data is also missing
 }
