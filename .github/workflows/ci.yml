@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build library source and wheel artifacts"
-        uses: ansys/actions/build-library@v11.2.0
+        uses: ansys/actions/build-library@v11.2.1
         with:
           library-name: ${{ env.PACKAGE_NAME }}
 
@@ -65,7 +65,7 @@ jobs:
           skip-existing: false
 
       - name: Release to GitHub
-        uses: ansys/actions/release-github@v11.2.0
+        uses: ansys/actions/release-github@v11.2.1
         with:
           library-name: ${{ env.PACKAGE_NAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
